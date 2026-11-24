@@ -6,44 +6,47 @@
     <title>Caderno de Contas · EJA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
-           01. SISTEMA EDITORIAL DE CORES E TIPOGRAFIA
-           Paleta brasileira: papel algodão, nanquim, terracota e anil
+           01. SISTEMA VISUAL: TIPOGRAFIA SUÍÇA + BRAUN ET66 + MIDORI MD
+           Hierarquia por escala, respiro e fios de 1px — sem caixas excessivas,
+           sem border-left decorativo e sem sombras neo-brutalistas.
            ============================================================ */
         :root {
-            --paper: #F4EFE6;
-            --surface: #FBF9F4;
-            --surface-alt: #EDE6D9;
-            --ink: #1A1916;
-            --ink-muted: #5C574E;
-            --rule: #D6CEC0;
+            --paper: #F6F3EC;
+            --surface: #FCFBF8;
+            --surface-soft: #EFECE3;
+            --lcd-bg: #E6E4DA;
+            --ink: #181715;
+            --ink-soft: #4A4740;
+            --ink-muted: #767166;
+            --hairline: #DED8CC;
+            --hairline-strong: #C5BEB0;
 
-            --terracota: #B84425;
-            --terracota-tint: #F6E6DF;
-            --anil: #1C4E6B;
-            --anil-tint: #E2ECF1;
-            --mata: #2A6246;
-            --mata-tint: #E3EFE8;
-            --ocre: #9E6D14;
-            --ocre-tint: #F7EEDB;
+            --terracota: #B94122;
+            --terracota-tint: #F4E7E2;
+            --anil: #1B526E;
+            --anil-tint: #E4EEF3;
+            --mata: #256143;
+            --mata-tint: #E4EFE9;
+            --ocre: #9A6612;
+            --ocre-tint: #F5ECD9;
 
             --accent: var(--terracota);
             --accent-tint: var(--terracota-tint);
-            --on-accent: #FBF9F4;
-            --shadow-ink: #1A1916;
+            --on-accent: #FCFBF8;
 
             --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
             --font-body: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-            --r-sm: 4px;
-            --r-md: 6px;
-            --r-lg: 8px;
+            --r-xs: 4px;
+            --r-sm: 8px;
+            --r-md: 12px;
+            --r-pill: 999px;
             --bottom-nav-h: 64px;
         }
 
-        /* Tema dinâmico de acento por operação */
         [data-op="div"] {
             --accent: var(--anil);
             --accent-tint: var(--anil-tint);
@@ -53,12 +56,15 @@
            02. MODO ALTO CONTRASTE
            ============================================================ */
         body.high-contrast {
-            --paper: #0A0A0A;
-            --surface: #141414;
-            --surface-alt: #1F1F1F;
+            --paper: #080808;
+            --surface: #121212;
+            --surface-soft: #1C1C1C;
+            --lcd-bg: #1A1A1A;
             --ink: #FFFFFF;
-            --ink-muted: #E0E0E0;
-            --rule: #FFFFFF;
+            --ink-soft: #EAEAEA;
+            --ink-muted: #C8C8C8;
+            --hairline: #525252;
+            --hairline-strong: #FFFFFF;
 
             --terracota: #FFD400;
             --terracota-tint: #262200;
@@ -71,8 +77,7 @@
 
             --accent: #FFD400;
             --accent-tint: #262200;
-            --on-accent: #0A0A0A;
-            --shadow-ink: #FFFFFF;
+            --on-accent: #080808;
         }
 
         body.high-contrast [data-op="div"] {
@@ -99,16 +104,17 @@
             background-color: var(--paper);
             color: var(--ink);
             font-family: var(--font-body);
-            line-height: 1.5;
+            line-height: 1.55;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 12px);
+            padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 18px);
+            -webkit-font-smoothing: antialiased;
         }
 
         @media (min-width: 768px) {
             body {
-                padding-bottom: 48px;
+                padding-bottom: 64px;
             }
         }
 
@@ -120,7 +126,7 @@
         button {
             cursor: pointer;
             background: none;
-            border: 1.5px solid transparent;
+            border: none;
             padding: 0;
             touch-action: manipulation;
         }
@@ -128,7 +134,7 @@
         button:focus-visible,
         input:focus-visible,
         summary:focus-visible {
-            outline: 2.5px solid var(--accent);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
 
@@ -149,18 +155,8 @@
             display: none !important;
         }
 
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-        }
-
         /* ============================================================
            04. POSICIONAMENTO DO WIDGET VLIBRAS (UNITY)
-           Mantém o botão flutuante acima da barra inferior no celular
            ============================================================ */
         div[vw] {
             z-index: 45 !important;
@@ -176,29 +172,29 @@
         }
 
         /* ============================================================
-           05. LAYOUT E TIPOGRAFIA EDITORIAL
+           05. GRADE SUÍÇA E TIPOGRAFIA
            ============================================================ */
         .wrap {
             width: 100%;
-            max-width: 960px;
+            max-width: 980px;
             margin: 0 auto;
-            padding: 0 14px;
+            padding: 0 18px;
         }
 
         @media (min-width: 768px) {
             .wrap {
-                padding: 0 24px;
+                padding: 0 32px;
             }
         }
 
         main.wrap {
             flex: 1;
-            padding-top: 16px;
+            padding-top: 22px;
         }
 
         @media (min-width: 768px) {
             main.wrap {
-                padding-top: 24px;
+                padding-top: 34px;
             }
         }
 
@@ -206,44 +202,35 @@
             display: flex;
             align-items: baseline;
             justify-content: space-between;
-            gap: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1.5px solid var(--ink);
-            margin-bottom: 14px;
-        }
-
-        .section-num {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--accent);
-            font-variant-numeric: tabular-nums;
-            margin-right: 8px;
+            gap: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--hairline);
         }
 
         .h-display {
             margin: 0;
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.25rem;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
+            font-weight: 500;
+            font-size: clamp(1.55rem, 4.5vw, 2.05rem);
+            line-height: 1.12;
+            letter-spacing: -0.025em;
         }
 
         .h-sub {
             margin: 0;
             font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.05rem;
+            font-weight: 500;
+            font-size: 1.12rem;
             line-height: 1.25;
+            letter-spacing: -0.015em;
         }
 
         .label-meta {
             display: block;
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.09em;
             color: var(--ink-muted);
         }
 
@@ -253,22 +240,23 @@
             margin: 0;
         }
 
-        .stack-lg > * + * { margin-top: 20px; }
-        .stack-md > * + * { margin-top: 14px; }
-        .stack-sm > * + * { margin-top: 8px; }
+        .stack-lg > * + * { margin-top: 28px; }
+        .stack-md > * + * { margin-top: 20px; }
+        .stack-sm > * + * { margin-top: 10px; }
 
+        /* Superfície tonal serena (sem borda pesada) */
         .sheet {
             background-color: var(--surface);
-            border: 1.5px solid var(--rule);
+            border: 1px solid var(--hairline);
             border-radius: var(--r-md);
-            padding: 16px;
+            padding: 18px;
         }
 
         .sheet-framed {
             background-color: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 1px solid var(--hairline-strong);
             border-radius: var(--r-md);
-            padding: 16px;
+            padding: 20px;
         }
 
         .row-between {
@@ -287,53 +275,56 @@
         }
 
         /* ============================================================
-           06. CABEÇALHO ENXUTO E BARRA UTILITÁRIA
+           06. CABEÇALHO SERENO E FAIXA UTILITÁRIA LIMPA
            ============================================================ */
         .masthead {
-            background-color: var(--surface);
-            border-bottom: 1.5px solid var(--ink);
+            background-color: rgba(246, 243, 236, 0.94);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--hairline);
             position: sticky;
             top: 0;
             z-index: 35;
+        }
+
+        body.high-contrast .masthead {
+            background-color: var(--paper);
+            backdrop-filter: none;
         }
 
         .masthead-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            padding: 10px 0 8px;
+            gap: 16px;
+            padding: 12px 0 8px;
         }
 
         .brand-lockup {
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            gap: 10px;
             min-width: 0;
         }
 
         .brand-name {
             margin: 0;
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.02rem;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
             white-space: nowrap;
         }
 
         .brand-tag {
             font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
-            color: var(--accent);
-            border: 1.5px solid var(--accent);
-            border-radius: var(--r-sm);
-            padding: 1px 6px;
-            line-height: 1.3;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+            text-transform: uppercase;
         }
 
-        /* Navegação desktop no cabeçalho */
+        /* Navegação desktop com indicador tipográfico limpo */
         .desktop-nav {
             display: none;
         }
@@ -342,44 +333,43 @@
             .desktop-nav {
                 display: flex;
                 align-items: center;
-                gap: 4px;
+                gap: 6px;
             }
         }
 
         .desktop-tab {
+            position: relative;
             min-height: 40px;
             padding: 0 14px;
-            border-radius: var(--r-sm);
+            border-radius: var(--r-pill);
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: var(--ink-muted);
-            border: 1.5px solid transparent;
+            transition: color 0.14s ease, background-color 0.14s ease;
         }
 
         .desktop-tab:hover {
             color: var(--ink);
-            background-color: var(--surface-alt);
+            background-color: var(--surface-soft);
         }
 
         .desktop-tab.active {
-            color: var(--on-accent);
+            color: var(--surface);
             background-color: var(--ink);
-            border-color: var(--ink);
         }
 
         body.high-contrast .desktop-tab.active {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--accent);
         }
 
-        /* Barra utilitária de acessibilidade (sempre >= 44px no toque) */
+        /* Barra utilitária sem caixas pesadas — separadores sutis */
         .util-bar {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 0 10px;
-            border-top: 1px solid var(--rule);
+            gap: 4px;
+            padding: 4px 0 8px;
+            border-top: 1px solid var(--hairline);
             overflow-x: auto;
             scrollbar-width: none;
         }
@@ -389,68 +379,74 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
             min-height: 44px;
             min-width: 44px;
             padding: 0 10px;
-            border: 1.5px solid var(--rule);
-            border-radius: var(--r-sm);
-            background-color: var(--paper);
-            color: var(--ink);
+            border-radius: var(--r-pill);
+            background-color: transparent;
+            color: var(--ink-soft);
             font-size: 0.82rem;
             font-weight: 700;
             white-space: nowrap;
             flex-shrink: 0;
+            transition: background-color 0.12s ease, color 0.12s ease;
         }
 
         .util-btn:hover {
-            border-color: var(--ink);
+            background-color: var(--surface-soft);
+            color: var(--ink);
         }
 
         .util-btn.active {
             background-color: var(--ink);
             color: var(--surface);
-            border-color: var(--ink);
         }
 
         body.high-contrast .util-btn.active {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--accent);
         }
 
         .util-btn svg {
-            width: 17px;
-            height: 17px;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .util-sep {
+            width: 1px;
+            height: 16px;
+            background-color: var(--hairline);
+            margin: 0 4px;
             flex-shrink: 0;
         }
 
         .font-indicator {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 700;
             color: var(--ink-muted);
             padding: 0 2px;
             flex-shrink: 0;
         }
 
-        /* Aviso discreto do VLibras */
         .libras-notice {
             background-color: var(--anil-tint);
-            border-top: 1.5px solid var(--anil);
-            border-bottom: 1.5px solid var(--anil);
+            border-top: 1px solid var(--hairline);
             padding: 10px 0;
             font-size: 0.88rem;
+            color: var(--ink);
         }
 
         .libras-notice-inner {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             gap: 12px;
         }
 
         /* ============================================================
-           07. NAVEGAÇÃO INFERIOR FIXA (MOBILE-FIRST)
+           07. NAVEGAÇÃO INFERIOR FIXA (CELULAR)
            ============================================================ */
         .bottom-nav {
             position: fixed;
@@ -458,11 +454,18 @@
             right: 0;
             bottom: 0;
             z-index: 40;
-            background-color: var(--surface);
-            border-top: 1.5px solid var(--ink);
+            background-color: rgba(252, 251, 248, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--hairline);
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        body.high-contrast .bottom-nav {
+            background-color: var(--surface);
+            backdrop-filter: none;
         }
 
         @media (min-width: 768px) {
@@ -472,33 +475,39 @@
         }
 
         .bottom-tab {
+            position: relative;
             min-height: var(--bottom-nav-h);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 4px;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 700;
             color: var(--ink-muted);
-            border: none;
-            border-top: 3px solid transparent;
-            margin-top: -1.5px;
         }
 
         .bottom-tab svg {
-            width: 21px;
-            height: 21px;
+            width: 20px;
+            height: 20px;
         }
 
         .bottom-tab.active {
             color: var(--ink);
-            border-top-color: var(--accent);
-            background-color: var(--paper);
+        }
+
+        .bottom-tab.active::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--accent);
         }
 
         /* ============================================================
-           08. BOTÕES TÁTEIS (BRAUN / EDITORIAL)
+           08. CONTROLES TÁTEIS (DIETER RAMS — SEM SOMBRA DESLOCADA)
            ============================================================ */
         .btn {
             display: inline-flex;
@@ -506,100 +515,107 @@
             justify-content: center;
             gap: 7px;
             min-height: 44px;
-            padding: 0 16px;
-            border-radius: var(--r-md);
+            padding: 0 18px;
+            border-radius: var(--r-pill);
             font-weight: 700;
-            font-size: 0.94rem;
-            border: 1.5px solid var(--ink);
+            font-size: 0.92rem;
+            border: 1px solid var(--hairline-strong);
             background-color: var(--surface);
             color: var(--ink);
-            transition: transform 0.06s ease, box-shadow 0.06s ease, background-color 0.12s ease;
+            transition: background-color 0.14s ease, border-color 0.14s ease, transform 0.08s ease;
         }
 
         .btn:hover {
-            background-color: var(--surface-alt);
+            background-color: var(--surface-soft);
+            border-color: var(--ink);
+        }
+
+        .btn:active {
+            transform: scale(0.985);
         }
 
         .btn-primary {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--ink);
-            box-shadow: 2px 2px 0 var(--shadow-ink);
+            border-color: transparent;
         }
 
         .btn-primary:hover {
             background-color: var(--accent);
-            filter: brightness(0.95);
-        }
-
-        .btn-primary:active {
-            transform: translate(2px, 2px);
-            box-shadow: 0 0 0 var(--shadow-ink);
+            border-color: transparent;
+            filter: brightness(0.92);
         }
 
         .btn-ink {
             background-color: var(--ink);
             color: var(--surface);
-            border-color: var(--ink);
-            box-shadow: 2px 2px 0 var(--rule);
+            border-color: transparent;
+        }
+
+        .btn-ink:hover {
+            background-color: var(--ink-soft);
+            border-color: transparent;
         }
 
         body.high-contrast .btn-ink {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--accent);
-            box-shadow: none;
         }
 
         .btn-subtle {
-            border-color: var(--rule);
-            background-color: var(--paper);
+            border-color: var(--hairline);
+            background-color: transparent;
+            color: var(--ink-soft);
         }
 
         .btn-subtle:hover {
-            border-color: var(--ink);
+            background-color: var(--surface-soft);
+            color: var(--ink);
+            border-color: var(--hairline-strong);
         }
 
         .btn-block {
             width: 100%;
-            min-height: 50px;
+            min-height: 52px;
             font-size: 1rem;
         }
 
         .btn-icon {
             min-width: 44px;
             min-height: 44px;
-            padding: 0 10px;
-            border: 1.5px solid var(--rule);
-            border-radius: var(--r-sm);
-            background-color: var(--paper);
+            padding: 0 12px;
+            border-radius: var(--r-pill);
+            background-color: var(--surface-soft);
+            color: var(--ink);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             font-size: 0.84rem;
             font-weight: 700;
+            transition: background-color 0.12s ease;
         }
 
         .btn-icon:hover {
-            border-color: var(--ink);
+            background-color: var(--hairline);
         }
 
         .btn-icon svg {
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
         }
 
         /* ============================================================
-           09. ALTERNADOR DE OPERAÇÃO E SELETORES 1-10
+           09. SELETOR SEGMENTADO E FAIXA 1–10
            ============================================================ */
         .seg-switch {
-            display: grid;
+            display: inline-grid;
             grid-template-columns: repeat(2, 1fr);
-            border: 1.5px solid var(--ink);
-            border-radius: var(--r-md);
-            overflow: hidden;
-            background-color: var(--surface);
+            width: 100%;
+            padding: 4px;
+            border-radius: var(--r-pill);
+            background-color: var(--surface-soft);
+            border: 1px solid var(--hairline);
         }
 
         .seg-switch.cols-3 {
@@ -607,35 +623,42 @@
         }
 
         .seg-btn {
-            min-height: 46px;
-            padding: 8px 10px;
+            min-height: 42px;
+            padding: 6px 12px;
+            border-radius: var(--r-pill);
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: var(--ink-muted);
-            border: none;
-            border-right: 1.5px solid var(--ink);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
 
-        .seg-btn:last-child {
-            border-right: none;
+        .seg-btn:hover:not(.active) {
+            color: var(--ink);
         }
 
         .seg-btn.active {
-            background-color: var(--accent);
-            color: var(--on-accent);
+            background-color: var(--surface);
+            color: var(--ink);
+            box-shadow: 0 1px 2px rgba(24, 23, 21, 0.08);
         }
 
-        /* Faixa horizontal com scroll-snap no mobile */
+        body.high-contrast .seg-btn.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            box-shadow: none;
+        }
+
+        /* Faixa horizontal 1-10 com scroll-snap */
         .num-strip {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding-bottom: 4px;
+            padding: 2px 0 6px;
             scrollbar-width: none;
         }
         .num-strip::-webkit-scrollbar { display: none; }
@@ -645,33 +668,34 @@
                 display: grid;
                 grid-template-columns: repeat(10, 1fr);
                 overflow-x: visible;
-                padding-bottom: 0;
+                padding: 0;
             }
         }
 
         .num-chip {
-            flex: 0 0 54px;
-            min-height: 48px;
+            flex: 0 0 50px;
+            min-height: 46px;
             scroll-snap-align: start;
-            border: 1.5px solid var(--rule);
             border-radius: var(--r-sm);
+            border: 1px solid var(--hairline);
             background-color: var(--surface);
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1.08rem;
             font-variant-numeric: tabular-nums;
-            color: var(--ink);
+            color: var(--ink-soft);
+            transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
         }
 
         .num-chip:hover {
             border-color: var(--ink);
+            color: var(--ink);
         }
 
         .num-chip.active {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--ink);
-            box-shadow: 2px 2px 0 var(--shadow-ink);
+            border-color: var(--accent);
         }
 
         .num-grid-10 {
@@ -692,129 +716,148 @@
         }
 
         /* ============================================================
-           10. ABA 01: ESTUDAR
+           10. ABA ESTUDAR — CADERNO DE REFERÊNCIA SUÍÇO (SEM BORDER-LEFT)
            ============================================================ */
         .strategy-strip {
-            border-left: 4px solid var(--accent);
-            background-color: var(--surface);
-            border-top: 1px solid var(--rule);
-            border-right: 1px solid var(--rule);
-            border-bottom: 1px solid var(--rule);
-            border-radius: 0 var(--r-md) var(--r-md) 0;
-            padding: 12px 14px;
+            padding: 14px 0;
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 12px;
+            gap: 14px;
         }
 
         .study-layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 24px;
         }
 
         @media (min-width: 860px) {
             .study-layout {
-                grid-template-columns: 1fr 1.12fr;
+                grid-template-columns: 0.92fr 1.08fr;
                 align-items: start;
+                gap: 32px;
             }
             .study-sticky {
                 position: sticky;
-                top: 118px;
+                top: 122px;
             }
         }
 
+        /* Lista de contas em estilo tabela editorial */
         .facts-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            border-top: 1.5px solid var(--ink);
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--hairline);
         }
 
         .fact-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            padding: 10px 10px;
-            border-bottom: 1px solid var(--rule);
-            background-color: var(--surface);
+            gap: 10px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--hairline);
+            border-radius: 0;
+            background-color: transparent;
             cursor: pointer;
+            transition: background-color 0.12s ease;
         }
 
         .fact-item:hover {
-            background-color: var(--surface-alt);
+            background-color: var(--surface-soft);
         }
 
+        /* Seleção limpa por superfície tonal + ponto indicador (zero border-left) */
         .fact-item.selected {
             background-color: var(--accent-tint);
-            border-left: 4px solid var(--accent);
-            padding-left: 10px;
+            border-radius: var(--r-sm);
+            border-bottom-color: transparent;
         }
 
         .fact-eq {
             font-family: var(--font-display);
-            font-weight: 700;
+            font-weight: 500;
             font-size: 1.28rem;
             font-variant-numeric: tabular-nums;
             display: flex;
-            align-items: baseline;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fact-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: transparent;
+            flex-shrink: 0;
+        }
+
+        .fact-item.selected .fact-dot {
+            background-color: var(--accent);
         }
 
         .fact-res {
+            font-weight: 700;
             color: var(--accent);
         }
 
         .fact-mask {
             display: inline-block;
-            min-width: 34px;
+            min-width: 32px;
             text-align: center;
-            border-bottom: 2px solid var(--ink);
+            border-bottom: 1.5px solid var(--ink-muted);
             color: var(--ink-muted);
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
 
         .explain-big-eq {
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 2rem;
-            line-height: 1.1;
+            font-weight: 600;
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            line-height: 1.08;
+            letter-spacing: -0.025em;
             font-variant-numeric: tabular-nums;
-            margin: 4px 0 0;
+            margin: 6px 0 0;
         }
 
         .explain-block {
-            padding: 12px 0;
-            border-top: 1px solid var(--rule);
+            padding: 14px 0;
+            border-top: 1px solid var(--hairline);
         }
 
         .explain-block:first-child {
             border-top: none;
-            padding-top: 0;
+            padding-top: 4px;
         }
 
         .explain-block p {
-            margin: 4px 0 0;
+            margin: 5px 0 0;
             font-size: 0.96rem;
+            color: var(--ink-soft);
         }
 
-        /* Visualização geométrica limpa (pontos para ×, caixas para ÷) */
+        .explain-block strong {
+            color: var(--ink);
+        }
+
+        /* Visualização geométrica */
         .dot-matrix {
             display: inline-grid;
-            gap: 4px;
-            padding: 10px;
+            gap: 5px;
+            padding: 12px;
             background-color: var(--paper);
-            border: 1px solid var(--rule);
             border-radius: var(--r-sm);
-            margin-top: 8px;
+            margin-top: 10px;
             max-width: 100%;
             overflow-x: auto;
         }
 
         .dot-pt {
-            width: 11px;
-            height: 11px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background-color: var(--accent);
         }
@@ -828,21 +871,19 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .group-card {
             background-color: var(--paper);
-            border: 1px solid var(--rule);
             border-radius: var(--r-sm);
-            padding: 7px 9px;
+            padding: 8px 10px;
             min-width: 72px;
             flex: 1 1 78px;
             max-width: 132px;
         }
 
         .group-card.rem-card {
-            border-color: var(--ocre);
             background-color: var(--ocre-tint);
         }
 
@@ -852,7 +893,7 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--ink-muted);
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .group-dots {
@@ -861,29 +902,29 @@
             gap: 3px;
         }
 
-        /* Details estilizados (Tabela 10x10 e Laboratório de Resto) */
+        /* Seções retráteis por fio fino (sem caixas pesadas) */
         details.editorial-drawer {
-            background-color: var(--surface);
-            border: 1.5px solid var(--rule);
-            border-radius: var(--r-md);
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
         }
 
-        details.editorial-drawer[open] {
-            border-color: var(--ink);
+        details.editorial-drawer + details.editorial-drawer {
+            border-top: none;
+            margin-top: 0;
         }
 
         details.editorial-drawer summary {
             list-style: none;
             cursor: pointer;
-            padding: 14px 16px;
+            padding: 16px 4px;
             font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.02rem;
+            font-weight: 500;
+            font-size: 1.08rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            min-height: 48px;
+            min-height: 52px;
         }
 
         details.editorial-drawer summary::-webkit-details-marker {
@@ -893,18 +934,18 @@
         .drawer-chev {
             width: 18px;
             height: 18px;
-            transition: transform 0.16s ease;
+            color: var(--ink-muted);
+            transition: transform 0.18s ease;
             flex-shrink: 0;
         }
 
         details.editorial-drawer[open] .drawer-chev {
             transform: rotate(180deg);
+            color: var(--ink);
         }
 
         .drawer-body {
-            padding: 0 16px 16px;
-            border-top: 1px solid var(--rule);
-            padding-top: 14px;
+            padding: 4px 4px 20px;
         }
 
         /* Tabela 10x10 */
@@ -924,16 +965,14 @@
         .m-head {
             padding: 6px 2px;
             text-align: center;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 700;
-            background-color: var(--surface-alt);
-            border-radius: 3px;
             color: var(--ink-muted);
         }
 
         .m-corner {
-            background-color: var(--ink);
-            color: var(--surface);
+            color: var(--ink);
+            font-family: var(--font-display);
         }
 
         .m-cell {
@@ -941,22 +980,23 @@
             padding: 4px 2px;
             font-size: 0.82rem;
             font-weight: 700;
-            background-color: var(--paper);
-            border: 1px solid var(--rule);
-            border-radius: 3px;
+            background-color: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: var(--r-xs);
+            transition: background-color 0.1s ease, color 0.1s ease;
         }
 
         .m-cell:hover {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--ink);
+            border-color: var(--accent);
         }
 
         /* Laboratório de Resto */
         .lab-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 14px;
         }
 
         @media (min-width: 560px) {
@@ -968,19 +1008,24 @@
         .stepper {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             margin-top: 6px;
         }
 
         .stepper-btn {
             width: 44px;
             height: 44px;
-            border: 1.5px solid var(--ink);
-            border-radius: var(--r-sm);
-            background-color: var(--paper);
-            font-size: 1.25rem;
+            border: 1px solid var(--hairline-strong);
+            border-radius: var(--r-pill);
+            background-color: var(--surface);
+            font-size: 1.2rem;
             font-weight: 700;
             flex-shrink: 0;
+        }
+
+        .stepper-btn:hover {
+            border-color: var(--ink);
+            background-color: var(--surface-soft);
         }
 
         .stepper-val {
@@ -989,8 +1034,8 @@
             text-align: center;
             font-family: var(--font-display);
             font-size: 1.3rem;
-            font-weight: 700;
-            border: 1.5px solid var(--rule);
+            font-weight: 600;
+            border: 1px solid var(--hairline);
             border-radius: var(--r-sm);
             background-color: var(--surface);
             font-variant-numeric: tabular-nums;
@@ -1003,22 +1048,22 @@
         }
 
         .readout-box {
-            padding: 10px 12px;
-            border: 1.5px solid var(--rule);
+            padding: 12px 14px;
             border-radius: var(--r-sm);
-            background-color: var(--paper);
+            background-color: var(--surface);
+            border: 1px solid var(--hairline);
         }
 
         .readout-val {
             font-family: var(--font-display);
-            font-size: 1.55rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 600;
             font-variant-numeric: tabular-nums;
             margin-top: 2px;
         }
 
         /* ============================================================
-           11. ABA 02: PRATICAR (OTIMIZADA PARA O POLEGAR)
+           11. ABA PRATICAR — INSTRUMENTO BRAUN ET66
            ============================================================ */
         .check-grid {
             display: grid;
@@ -1032,46 +1077,50 @@
             }
         }
 
+        /* Toggle tátil limpo (sem caixinha de checkbox artificial) */
         .check-tile {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 11px 12px;
-            border: 1.5px solid var(--rule);
-            border-radius: var(--r-md);
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--hairline);
+            border-radius: var(--r-sm);
             background-color: var(--surface);
             text-align: left;
             width: 100%;
-            min-height: 54px;
+            min-height: 58px;
+            transition: background-color 0.14s ease, border-color 0.14s ease;
+        }
+
+        .check-tile:hover {
+            border-color: var(--hairline-strong);
         }
 
         .check-tile.active {
-            border-color: var(--ink);
+            border-color: var(--accent);
             background-color: var(--accent-tint);
         }
 
-        .check-mark {
-            width: 20px;
-            height: 20px;
-            border: 1.5px solid var(--ink);
-            border-radius: 3px;
-            background-color: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Indicador de estado estilo LED/ponto Braun */
+        .state-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1.5px solid var(--hairline-strong);
+            background-color: transparent;
             flex-shrink: 0;
-            margin-top: 2px;
+            transition: background-color 0.14s ease, border-color 0.14s ease;
         }
 
-        .check-tile.active .check-mark {
+        .check-tile.active .state-dot {
             background-color: var(--accent);
-            border-color: var(--ink);
-            color: var(--on-accent);
+            border-color: var(--accent);
         }
 
-        /* Sessão ativa compacta no mobile */
+        /* Sessão ativa */
         .practice-shell {
-            max-width: 560px;
+            max-width: 520px;
             margin: 0 auto;
         }
 
@@ -1080,42 +1129,41 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--rule);
             font-size: 0.88rem;
             font-weight: 700;
         }
 
         .progress-rule {
             width: 100%;
-            height: 5px;
-            background-color: var(--surface-alt);
-            margin-top: 8px;
+            height: 3px;
+            background-color: var(--hairline);
+            border-radius: var(--r-pill);
+            margin-top: 10px;
             overflow: hidden;
         }
 
         .progress-rule-fill {
             height: 100%;
             background-color: var(--accent);
-            transition: width 0.25s ease;
+            transition: width 0.28s ease;
         }
 
+        /* Palco da questão — sereno, sem border-left e sem contorno grosso */
         .q-stage {
             background-color: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 1px solid var(--hairline);
             border-radius: var(--r-md);
-            padding: 14px;
-            margin-top: 10px;
+            padding: 18px 16px 16px;
+            margin-top: 14px;
+            transition: border-color 0.2s ease;
         }
 
         .q-stage.is-correct {
             border-color: var(--mata);
-            box-shadow: inset 4px 0 0 var(--mata);
         }
 
         .q-stage.is-wrong {
             border-color: var(--ocre);
-            box-shadow: inset 4px 0 0 var(--ocre);
         }
 
         .q-meta-row {
@@ -1123,14 +1171,14 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .q-tag {
             font-size: 0.74rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.07em;
+            letter-spacing: 0.08em;
             color: var(--accent);
         }
 
@@ -1140,61 +1188,65 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--ocre);
-            border: 1px solid var(--ocre);
-            border-radius: 3px;
-            padding: 1px 6px;
+            background-color: var(--ocre-tint);
+            border-radius: var(--r-pill);
+            padding: 2px 8px;
         }
 
         .q-story {
-            margin: 0 0 6px;
-            font-size: 1rem;
-            line-height: 1.45;
-            color: var(--ink);
+            margin: 0 0 8px;
+            font-size: 1.02rem;
+            line-height: 1.5;
+            color: var(--ink-soft);
         }
 
         .q-equation {
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: clamp(1.75rem, 7vw, 2.4rem);
-            line-height: 1.15;
+            font-weight: 600;
+            font-size: clamp(2rem, 8vw, 2.75rem);
+            line-height: 1.1;
+            letter-spacing: -0.025em;
             text-align: center;
-            margin: 6px 0 10px;
+            margin: 10px 0 16px;
             font-variant-numeric: tabular-nums;
         }
 
         .q-equation.is-question {
-            font-size: clamp(1.15rem, 4.4vw, 1.45rem);
+            font-size: clamp(1.2rem, 4.5vw, 1.48rem);
+            font-weight: 500;
             text-align: left;
-            margin: 4px 0 10px;
+            margin: 4px 0 14px;
         }
 
+        /* Dica tonal limpa (zero border-left) */
         .hint-panel {
             background-color: var(--ocre-tint);
-            border-left: 3px solid var(--ocre);
-            padding: 9px 12px;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
+            border-radius: var(--r-sm);
+            padding: 10px 12px;
+            font-size: 0.92rem;
+            margin-bottom: 14px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
         }
 
-        /* Visor estilo calculadora Braun */
+        /* Visor LCD fosco inspirado na Braun ET66 */
         .calc-display-wrap {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .calc-display {
             width: 100%;
-            min-height: 52px;
-            padding: 8px 14px;
-            border: 1.5px solid var(--ink);
+            min-height: 58px;
+            padding: 10px 16px;
+            border: 1px solid var(--hairline-strong);
             border-radius: var(--r-sm);
-            background-color: var(--paper);
+            background-color: var(--lcd-bg);
+            box-shadow: inset 0 1px 3px rgba(24, 23, 21, 0.08);
             font-family: var(--font-display);
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.9rem;
+            font-weight: 600;
             text-align: right;
             font-variant-numeric: tabular-nums;
             color: var(--ink);
@@ -1204,21 +1256,22 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .dual-field {
-            border: 1.5px solid var(--rule);
+            border: 1px solid var(--hairline-strong);
             border-radius: var(--r-sm);
-            background-color: var(--paper);
-            padding: 6px 10px;
+            background-color: var(--lcd-bg);
+            padding: 8px 12px;
             cursor: pointer;
+            transition: border-color 0.14s ease, background-color 0.14s ease;
         }
 
         .dual-field.focused {
-            border-color: var(--ink);
+            border-color: var(--accent);
             background-color: var(--surface);
-            box-shadow: inset 0 -3px 0 var(--accent);
+            box-shadow: 0 0 0 1px var(--accent);
         }
 
         .dual-field input {
@@ -1226,56 +1279,70 @@
             border: none;
             background: transparent;
             font-family: var(--font-display);
-            font-size: 1.55rem;
-            font-weight: 700;
+            font-size: 1.65rem;
+            font-weight: 600;
             font-variant-numeric: tabular-nums;
             padding: 2px 0 0;
             outline: none;
         }
 
-        /* Teclado físico Braun / Dieter Rams */
+        /* Teclado físico inspirado no Braun ET66 (corpo neutro + teclas táteis) */
         .braun-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 7px;
-            background-color: var(--surface-alt);
-            border: 1.5px solid var(--rule);
+            gap: 8px;
+            background-color: var(--surface-soft);
             border-radius: var(--r-md);
-            padding: 8px;
+            padding: 10px;
         }
 
         .pad-key {
-            min-height: 48px;
-            border: 1.5px solid var(--ink);
+            min-height: 52px;
             border-radius: var(--r-sm);
+            border: 1px solid var(--hairline);
             background-color: var(--surface);
+            box-shadow: 0 1px 0 var(--hairline-strong);
             font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.35rem;
+            font-weight: 600;
             font-variant-numeric: tabular-nums;
-            box-shadow: 2px 2px 0 var(--shadow-ink);
-            transition: transform 0.05s ease, box-shadow 0.05s ease;
+            color: var(--ink);
+            transition: transform 0.06s ease, background-color 0.1s ease;
+        }
+
+        .pad-key:hover {
+            background-color: var(--paper);
         }
 
         .pad-key:active {
-            transform: translate(2px, 2px);
-            box-shadow: 0 0 0 var(--shadow-ink);
+            transform: translateY(1px);
+            box-shadow: none;
         }
 
         .pad-key.key-del {
             font-family: var(--font-body);
             font-size: 0.88rem;
+            font-weight: 700;
             background-color: var(--paper);
+            color: var(--ink-soft);
         }
 
         .pad-key.key-ok {
             font-family: var(--font-body);
             font-size: 0.92rem;
+            font-weight: 700;
             background-color: var(--accent);
+            border-color: transparent;
+            box-shadow: 0 1px 0 rgba(24, 23, 21, 0.25);
             color: var(--on-accent);
         }
 
-        /* Botões grandes para Estimativa */
+        .pad-key.key-ok:hover {
+            background-color: var(--accent);
+            filter: brightness(0.93);
+        }
+
+        /* Opções de Estimativa */
         .est-options {
             display: grid;
             grid-template-columns: 1fr;
@@ -1293,24 +1360,28 @@
 
         .est-btn {
             min-height: 54px;
-            padding: 12px 14px;
-            border: 1.5px solid var(--ink);
-            border-radius: var(--r-md);
+            padding: 12px 16px;
+            border: 1px solid var(--hairline-strong);
+            border-radius: var(--r-sm);
             background-color: var(--paper);
             font-weight: 700;
             font-size: 1.02rem;
-            box-shadow: 2px 2px 0 var(--shadow-ink);
-            transition: transform 0.05s ease, box-shadow 0.05s ease;
+            transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
+        }
+
+        .est-btn:hover:not(:disabled) {
+            background-color: var(--surface-soft);
+            border-color: var(--ink);
         }
 
         .est-btn:active:not(:disabled) {
-            transform: translate(2px, 2px);
-            box-shadow: 0 0 0 var(--shadow-ink);
+            transform: scale(0.985);
         }
 
         .est-btn.picked-ok {
             background-color: var(--mata);
-            color: #FBF9F4;
+            border-color: var(--mata);
+            color: #FCFBF8;
         }
 
         .est-btn.picked-err {
@@ -1325,29 +1396,27 @@
         }
 
         .feedback-strip {
-            margin-top: 12px;
-            padding: 12px 14px;
+            margin-top: 14px;
+            padding: 14px 16px;
             border-radius: var(--r-sm);
-            border: 1.5px solid var(--rule);
         }
 
         .feedback-strip.ok {
             background-color: var(--mata-tint);
-            border-color: var(--mata);
         }
 
         .feedback-strip.err {
             background-color: var(--ocre-tint);
-            border-color: var(--ocre);
         }
 
         /* ============================================================
-           12. ABA 03: PROGRESSO
+           12. ABA PROGRESSO — GRADE ANALÍTICA LIMPA
            ============================================================ */
         .kpi-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
         }
 
         @media (min-width: 640px) {
@@ -1356,28 +1425,47 @@
             }
         }
 
+        .kpi-cell {
+            padding: 16px 4px;
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .kpi-cell:last-child {
+            border-bottom: none;
+        }
+
+        @media (min-width: 640px) {
+            .kpi-cell {
+                padding: 18px 20px;
+                border-bottom: none;
+                border-right: 1px solid var(--hairline);
+            }
+            .kpi-cell:first-child { padding-left: 0; }
+            .kpi-cell:last-child { border-right: none; padding-right: 0; }
+        }
+
         .kpi-val {
             font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.9rem;
-            line-height: 1.1;
+            font-weight: 600;
+            font-size: 2.15rem;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
             font-variant-numeric: tabular-nums;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .goal-btn {
-            min-height: 34px;
-            min-width: 38px;
+            min-height: 32px;
+            min-width: 36px;
             padding: 0 8px;
-            border: 1.5px solid var(--rule);
-            border-radius: var(--r-sm);
-            font-size: 0.8rem;
+            border-radius: var(--r-pill);
+            font-size: 0.78rem;
             font-weight: 700;
-            background-color: var(--paper);
+            color: var(--ink-muted);
+            background-color: var(--surface-soft);
         }
 
         .goal-btn.active {
-            border-color: var(--ink);
             background-color: var(--ink);
             color: var(--surface);
         }
@@ -1385,13 +1473,12 @@
         body.high-contrast .goal-btn.active {
             background-color: var(--accent);
             color: var(--on-accent);
-            border-color: var(--accent);
         }
 
         .bars-2col {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 14px 28px;
         }
 
         @media (min-width: 680px) {
@@ -1401,21 +1488,20 @@
         }
 
         .bar-row {
-            padding: 10px 12px;
-            border: 1px solid var(--rule);
-            border-radius: var(--r-sm);
-            background-color: var(--paper);
+            padding: 4px 0;
         }
 
         .bar-track {
-            height: 6px;
-            background-color: var(--surface-alt);
-            margin-top: 6px;
+            height: 5px;
+            border-radius: var(--r-pill);
+            background-color: var(--surface-soft);
+            margin-top: 7px;
             overflow: hidden;
         }
 
         .bar-fill {
             height: 100%;
+            border-radius: var(--r-pill);
             background-color: var(--accent);
         }
 
@@ -1425,45 +1511,50 @@
 
         .reforco-chip {
             display: inline-block;
-            padding: 6px 10px;
-            border: 1.5px solid var(--ocre);
-            border-radius: var(--r-sm);
+            padding: 6px 12px;
+            border-radius: var(--r-pill);
             background-color: var(--ocre-tint);
+            color: var(--ink);
             font-family: var(--font-display);
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.94rem;
             font-variant-numeric: tabular-nums;
         }
 
-        /* Matriz 10x10 com escala de densidade de tinta */
+        /* Matriz 10x10 de densidade de tinta */
         .ink-cell {
             aspect-ratio: 1 / 1;
             min-height: 30px;
-            border-radius: 3px;
-            border: 1px solid var(--rule);
+            border-radius: var(--r-xs);
+            border: 1px solid var(--hairline);
             font-size: 0.78rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.08s ease;
+        }
+
+        .ink-cell:hover {
+            transform: scale(1.06);
         }
 
         .ink-0 {
-            background-color: var(--paper);
+            background-color: var(--surface);
             color: var(--ink-muted);
         }
 
         .ink-1 {
-            background-color: rgba(26, 25, 22, 0.16);
+            background-color: rgba(24, 23, 21, 0.14);
             color: var(--ink);
-            border-color: rgba(26, 25, 22, 0.35);
+            border-color: transparent;
         }
 
         .ink-2 {
-            background-color: rgba(26, 25, 22, 0.45);
-            color: #FBF9F4;
-            border-color: rgba(26, 25, 22, 0.65);
+            background-color: rgba(24, 23, 21, 0.44);
+            color: #FCFBF8;
+            border-color: transparent;
         }
 
         .ink-3 {
@@ -1475,46 +1566,47 @@
         body.high-contrast .ink-0 { background-color: #141414; color: #A0A0A0; border-color: #555; }
         body.high-contrast .ink-1 { background-color: #333333; color: #FFFFFF; border-color: #FFFFFF; }
         body.high-contrast .ink-2 { background-color: #666666; color: #FFFFFF; border-color: #FFFFFF; }
-        body.high-contrast .ink-3 { background-color: #FFD400; color: #0A0A0A; border-color: #FFD400; }
+        body.high-contrast .ink-3 { background-color: #FFD400; color: #080808; border-color: #FFD400; }
 
         .swatch {
             display: inline-block;
-            width: 13px;
-            height: 13px;
-            border-radius: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
             vertical-align: -2px;
-            border: 1px solid var(--rule);
+            border: 1px solid var(--hairline);
         }
 
         /* ============================================================
-           13. MODAL EDITORIAL (REINICIAR EM DOIS PASSOS)
+           13. MODAL LIMPO (REINICIAR EM DOIS PASSOS)
            ============================================================ */
         .modal-bg {
             position: fixed;
             inset: 0;
             z-index: 70;
-            background: rgba(26, 25, 22, 0.62);
+            background: rgba(24, 23, 21, 0.5);
+            backdrop-filter: blur(3px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 18px;
         }
 
         .modal-card {
             width: 100%;
             max-width: 400px;
             background-color: var(--surface);
-            border: 2px solid var(--ink);
+            border: 1px solid var(--hairline-strong);
             border-radius: var(--r-md);
-            padding: 20px;
-            box-shadow: 4px 4px 0 var(--shadow-ink);
+            padding: 24px;
+            box-shadow: 0 18px 40px rgba(24, 23, 21, 0.16);
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-         CABEÇALHO EDITORIAL E BARRA DE ACESSIBILIDADE
+         CABEÇALHO SERENO E BARRA UTILITÁRIA
          ============================================================ -->
     <header class="masthead">
         <div class="wrap">
@@ -1532,11 +1624,12 @@
                 </nav>
             </div>
 
-            <!-- Barra utilitária tátil (>= 44px) -->
+            <!-- Barra utilitária limpa (sem bordas pesadas, alvos >= 44px) -->
             <div class="util-bar" role="toolbar" aria-label="Ferramentas de acessibilidade">
                 <button type="button" class="util-btn" onclick="changeFont(-1)" aria-label="Diminuir letra">A−</button>
                 <span id="font-pct" class="font-indicator num">100%</span>
                 <button type="button" class="util-btn" onclick="changeFont(1)" aria-label="Aumentar letra">A+</button>
+                <span class="util-sep" aria-hidden="true"></span>
 
                 <button type="button" id="btn-contrast" class="util-btn" onclick="toggleContrast()" aria-pressed="false">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1593,7 +1686,7 @@
              ======================================================== -->
         <section id="view-estudar" class="stack-md" data-op="mult">
             <div class="section-head">
-                <h2 class="h-display"><span class="section-num">01</span>Estudar</h2>
+                <h2 class="h-display">Estudar</h2>
                 <button type="button" id="btn-flashcard" class="btn-icon" onclick="toggleFlashcard()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
@@ -1632,10 +1725,10 @@
 
             <!-- Grade de contas + Painel editorial "Como pensar essa conta" -->
             <div class="study-layout">
-                <div class="sheet" style="padding:12px;">
-                    <div class="row-between" style="margin-bottom:8px;">
+                <div>
+                    <div class="row-between" style="margin-bottom:10px;">
                         <h3 id="study-list-heading" class="h-sub">Tabuada do 2</h3>
-                        <span class="muted" style="font-size:0.82rem;">Toque em uma conta</span>
+                        <span class="muted" style="font-size:0.84rem;">Toque em uma conta</span>
                     </div>
                     <div id="study-facts-list" class="facts-grid"></div>
                 </div>
@@ -1714,13 +1807,13 @@
             <!-- TELA A: CONFIGURAÇÃO -->
             <div id="prac-setup" class="stack-md">
                 <div class="section-head">
-                    <h2 class="h-display"><span class="section-num">02</span>Praticar</h2>
-                    <span class="muted" style="font-size:0.84rem;">10 contas · sem tempo</span>
+                    <h2 class="h-display">Praticar</h2>
+                    <span class="muted" style="font-size:0.86rem;">10 contas · sem tempo</span>
                 </div>
 
-                <div class="sheet stack-md">
+                <div class="stack-md">
                     <div>
-                        <span class="label-meta" style="margin-bottom:6px;">Operação</span>
+                        <span class="label-meta" style="margin-bottom:8px;">Operação</span>
                         <div class="seg-switch cols-3">
                             <button type="button" id="p-op-mult" class="seg-btn active" onclick="setPracOp('mult')">Multiplicação</button>
                             <button type="button" id="p-op-div" class="seg-btn" onclick="setPracOp('div')">Divisão</button>
@@ -1731,10 +1824,10 @@
                     <div class="stack-sm">
                         <span class="label-meta">Números</span>
                         <div class="row-gap">
-                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('easy')">Fáceis (1,2,5,10)</button>
-                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('med')">Médias (3,4,6)</button>
-                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('hard')">Difíceis (7,8,9)</button>
-                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('all')">Todas</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.84rem;" onclick="applyPreset('easy')">Fáceis (1,2,5,10)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.84rem;" onclick="applyPreset('med')">Médias (3,4,6)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.84rem;" onclick="applyPreset('hard')">Difíceis (7,8,9)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.84rem;" onclick="applyPreset('all')">Todas</button>
                         </div>
                         <div id="prac-num-grid" class="num-grid-10"></div>
                     </div>
@@ -1746,11 +1839,11 @@
 
                     <div id="prac-rem-wrap" class="hidden">
                         <button type="button" id="btn-rem-toggle" class="check-tile" onclick="togglePracRemainder()">
-                            <span class="check-mark" id="rem-check-mark"></span>
                             <div>
                                 <strong style="display:block; font-size:0.94rem;">Incluir divisão com resto</strong>
                                 <span class="muted" style="font-size:0.84rem;">Informe quanto vai para cada e quanto sobra.</span>
                             </div>
+                            <span class="state-dot" id="rem-check-mark" aria-hidden="true"></span>
                         </button>
                     </div>
 
@@ -1864,27 +1957,27 @@
         <!-- ========================================================
              ABA 03: PROGRESSO
              ======================================================== -->
-        <section id="view-progresso" class="stack-md hidden" data-op="mult">
+        <section id="view-progresso" class="stack-lg hidden" data-op="mult">
             <div class="section-head">
-                <h2 class="h-display"><span class="section-num">03</span>Progresso</h2>
-                <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.82rem;" onclick="openResetModal()">Reiniciar</button>
+                <h2 class="h-display">Progresso</h2>
+                <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 14px; font-size:0.84rem;" onclick="openResetModal()">Reiniciar</button>
             </div>
 
-            <!-- Indicadores gerais e meta diária -->
+            <!-- Indicadores gerais em faixa contínua com divisórias de 1px -->
             <div class="kpi-grid">
-                <div class="sheet">
+                <div class="kpi-cell">
                     <span class="label-meta">Contas feitas</span>
                     <div id="kpi-total" class="kpi-val">0</div>
                     <p class="muted" style="font-size:0.84rem;">multiplicação e divisão</p>
                 </div>
 
-                <div class="sheet">
+                <div class="kpi-cell">
                     <span class="label-meta">Acertos</span>
                     <div id="kpi-acc" class="kpi-val" style="color:var(--mata);">—</div>
                     <p class="muted" style="font-size:0.84rem;">média acumulada</p>
                 </div>
 
-                <div class="sheet">
+                <div class="kpi-cell">
                     <div class="row-between" style="gap:6px;">
                         <span class="label-meta">Meta de hoje</span>
                         <div class="row-gap" style="gap:4px;" role="group" aria-label="Meta diária">
@@ -1894,7 +1987,7 @@
                         </div>
                     </div>
                     <div class="kpi-val"><span id="kpi-today">0</span><span style="font-size:1rem; color:var(--ink-muted);">/<span id="kpi-goal">20</span></span></div>
-                    <div class="bar-track" style="margin-top:8px;">
+                    <div class="bar-track" style="margin-top:10px;">
                         <div id="kpi-today-bar" class="bar-fill" style="width:0%;"></div>
                     </div>
                 </div>
@@ -1907,19 +2000,19 @@
             </div>
 
             <!-- Contas para reforçar -->
-            <div class="sheet stack-sm">
+            <div class="stack-sm">
                 <div class="row-between">
                     <div>
                         <h3 class="h-sub">Contas para reforçar</h3>
                         <p class="muted" style="font-size:0.86rem;">Fatos em que houve erro ou dúvida recente.</p>
                     </div>
-                    <button type="button" class="btn btn-primary" style="min-height:40px; font-size:0.88rem;" onclick="practiceWeakNow()">Praticar essas agora</button>
+                    <button type="button" class="btn btn-primary" style="min-height:42px; font-size:0.88rem;" onclick="practiceWeakNow()">Praticar essas agora</button>
                 </div>
                 <div id="prog-weak-list" class="row-gap"></div>
             </div>
 
             <!-- Progresso por tabuada / divisor -->
-            <div class="sheet stack-sm">
+            <div class="stack-sm" style="padding-top:16px; border-top:1px solid var(--hairline);">
                 <h3 id="prog-bars-title" class="h-sub">Por tabuada (1 a 10)</h3>
                 <div id="prog-bars" class="bars-2col"></div>
             </div>
@@ -2010,23 +2103,43 @@
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js" onerror="window.__vlibrasFailed=true;"></script>
 
     <!-- ============================================================
          LÓGICA DA APLICAÇÃO
          ============================================================ -->
     <script>
         /* ============================================================
-           01. INICIALIZAÇÃO DO VLIBRAS E AVISO DE ACESSIBILIDADE
+           01. INICIALIZAÇÃO ASSÍNCRONA DO VLIBRAS E AVISO DE ACESSIBILIDADE
+           Carregado de forma assíncrona para nunca bloquear os scripts da página
            ============================================================ */
         let vlibrasReady = false;
 
-        function initVLibras() {
+        function mountVLibrasWidget() {
             try {
                 if (window.VLibras && typeof window.VLibras.Widget === 'function') {
                     new window.VLibras.Widget('https://vlibras.gov.br/app');
                     vlibrasReady = true;
                 }
+            } catch (e) {
+                vlibrasReady = false;
+            }
+        }
+
+        function initVLibras() {
+            if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+                mountVLibrasWidget();
+                return;
+            }
+            try {
+                const script = document.createElement('script');
+                script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+                script.async = true;
+                script.onload = mountVLibrasWidget;
+                script.onerror = function () {
+                    window.__vlibrasFailed = true;
+                    vlibrasReady = false;
+                };
+                document.body.appendChild(script);
             } catch (e) {
                 vlibrasReady = false;
             }
@@ -2361,6 +2474,7 @@
 
                 row.innerHTML = `
                     <div class="fact-eq">
+                        <span class="fact-dot" aria-hidden="true"></span>
                         <span>${left}</span>
                         <span class="${masked ? 'fact-mask' : 'fact-res'}">${masked ? '?' : val}</span>
                     </div>
@@ -2592,9 +2706,6 @@
             pracRemainder = !pracRemainder;
             const tile = document.getElementById('btn-rem-toggle');
             tile.classList.toggle('active', pracRemainder);
-            document.getElementById('rem-check-mark').innerHTML = pracRemainder
-                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
-                : '';
         }
 
         function renderPracSetup() {
@@ -2633,11 +2744,11 @@
                     renderPracSetup();
                 };
                 btn.innerHTML = `
-                    <span class="check-mark">${on ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' : ''}</span>
                     <div>
                         <strong style="display:block; font-size:0.94rem;">${s.name}</strong>
                         <span class="muted" style="font-size:0.82rem;">${s.desc}</span>
                     </div>
+                    <span class="state-dot" aria-hidden="true"></span>
                 `;
                 sGrid.appendChild(btn);
             });
@@ -3527,15 +3638,57 @@
         }
 
         /* ============================================================
-           10. BOOTSTRAP
+           10. EXPOSIÇÃO GLOBAL E BOOTSTRAP
+           Garante que handlers inline funcionem mesmo em ambientes isolados
            ============================================================ */
-        window.onload = function () {
-            initVLibras();
+        Object.assign(window, {
+            switchTab,
+            changeFont,
+            toggleContrast,
+            toggleAutoVoice,
+            toggleLibrasGuide,
+            closeLibrasNotice,
+            toggleFlashcard,
+            setStudyOp,
+            speakStudyTrick,
+            speakStudyExplain,
+            speak,
+            stepLab,
+            renderLab,
+            setPracOp,
+            applyPreset,
+            togglePracRemainder,
+            startRound,
+            exitToSetup,
+            showHint,
+            speakQuestion,
+            speakHint,
+            focusDual,
+            padKey,
+            padBackspace,
+            submitNumeric,
+            advanceRound,
+            openResetModal,
+            closeResetModal,
+            confirmResetStep,
+            setGoal,
+            setProgOp,
+            practiceWeakNow
+        });
+
+        function bootstrapApp() {
             renderStudy();
             renderFullMatrix();
             renderLab();
             renderPracSetup();
-        };
+            initVLibras();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootstrapApp);
+        } else {
+            bootstrapApp();
+        }
     </script>
 </body>
 </html>
