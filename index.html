@@ -1,0 +1,3541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Caderno de Contas · EJA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           01. SISTEMA EDITORIAL DE CORES E TIPOGRAFIA
+           Paleta brasileira: papel algodão, nanquim, terracota e anil
+           ============================================================ */
+        :root {
+            --paper: #F4EFE6;
+            --surface: #FBF9F4;
+            --surface-alt: #EDE6D9;
+            --ink: #1A1916;
+            --ink-muted: #5C574E;
+            --rule: #D6CEC0;
+
+            --terracota: #B84425;
+            --terracota-tint: #F6E6DF;
+            --anil: #1C4E6B;
+            --anil-tint: #E2ECF1;
+            --mata: #2A6246;
+            --mata-tint: #E3EFE8;
+            --ocre: #9E6D14;
+            --ocre-tint: #F7EEDB;
+
+            --accent: var(--terracota);
+            --accent-tint: var(--terracota-tint);
+            --on-accent: #FBF9F4;
+            --shadow-ink: #1A1916;
+
+            --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+            --font-body: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            --r-sm: 4px;
+            --r-md: 6px;
+            --r-lg: 8px;
+            --bottom-nav-h: 64px;
+        }
+
+        /* Tema dinâmico de acento por operação */
+        [data-op="div"] {
+            --accent: var(--anil);
+            --accent-tint: var(--anil-tint);
+        }
+
+        /* ============================================================
+           02. MODO ALTO CONTRASTE
+           ============================================================ */
+        body.high-contrast {
+            --paper: #0A0A0A;
+            --surface: #141414;
+            --surface-alt: #1F1F1F;
+            --ink: #FFFFFF;
+            --ink-muted: #E0E0E0;
+            --rule: #FFFFFF;
+
+            --terracota: #FFD400;
+            --terracota-tint: #262200;
+            --anil: #FFD400;
+            --anil-tint: #262200;
+            --mata: #7CE39B;
+            --mata-tint: #102618;
+            --ocre: #FFD400;
+            --ocre-tint: #262200;
+
+            --accent: #FFD400;
+            --accent-tint: #262200;
+            --on-accent: #0A0A0A;
+            --shadow-ink: #FFFFFF;
+        }
+
+        body.high-contrast [data-op="div"] {
+            --accent: #FFD400;
+            --accent-tint: #262200;
+        }
+
+        /* ============================================================
+           03. RESET E BASE MOBILE-FIRST
+           ============================================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100dvh;
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 12px);
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 48px;
+            }
+        }
+
+        button, input {
+            font-family: inherit;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            background: none;
+            border: 1.5px solid transparent;
+            padding: 0;
+            touch-action: manipulation;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        summary:focus-visible {
+            outline: 2.5px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .num {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+        }
+
+        /* ============================================================
+           04. POSICIONAMENTO DO WIDGET VLIBRAS (UNITY)
+           Mantém o botão flutuante acima da barra inferior no celular
+           ============================================================ */
+        div[vw] {
+            z-index: 45 !important;
+            bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 14px) !important;
+            top: auto !important;
+            transform: none !important;
+        }
+
+        @media (min-width: 768px) {
+            div[vw] {
+                bottom: 24px !important;
+            }
+        }
+
+        /* ============================================================
+           05. LAYOUT E TIPOGRAFIA EDITORIAL
+           ============================================================ */
+        .wrap {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+        @media (min-width: 768px) {
+            .wrap {
+                padding: 0 24px;
+            }
+        }
+
+        main.wrap {
+            flex: 1;
+            padding-top: 16px;
+        }
+
+        @media (min-width: 768px) {
+            main.wrap {
+                padding-top: 24px;
+            }
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1.5px solid var(--ink);
+            margin-bottom: 14px;
+        }
+
+        .section-num {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            margin-right: 8px;
+        }
+
+        .h-display {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .h-sub {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.05rem;
+            line-height: 1.25;
+        }
+
+        .label-meta {
+            display: block;
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink-muted);
+        }
+
+        .muted {
+            color: var(--ink-muted);
+            font-size: 0.94rem;
+            margin: 0;
+        }
+
+        .stack-lg > * + * { margin-top: 20px; }
+        .stack-md > * + * { margin-top: 14px; }
+        .stack-sm > * + * { margin-top: 8px; }
+
+        .sheet {
+            background-color: var(--surface);
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-md);
+            padding: 16px;
+        }
+
+        .sheet-framed {
+            background-color: var(--surface);
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-md);
+            padding: 16px;
+        }
+
+        .row-between {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .row-gap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ============================================================
+           06. CABEÇALHO ENXUTO E BARRA UTILITÁRIA
+           ============================================================ */
+        .masthead {
+            background-color: var(--surface);
+            border-bottom: 1.5px solid var(--ink);
+            position: sticky;
+            top: 0;
+            z-index: 35;
+        }
+
+        .masthead-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 0 8px;
+        }
+
+        .brand-lockup {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .brand-name {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.02rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .brand-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+            border-radius: var(--r-sm);
+            padding: 1px 6px;
+            line-height: 1.3;
+        }
+
+        /* Navegação desktop no cabeçalho */
+        .desktop-nav {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+        }
+
+        .desktop-tab {
+            min-height: 40px;
+            padding: 0 14px;
+            border-radius: var(--r-sm);
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--ink-muted);
+            border: 1.5px solid transparent;
+        }
+
+        .desktop-tab:hover {
+            color: var(--ink);
+            background-color: var(--surface-alt);
+        }
+
+        .desktop-tab.active {
+            color: var(--on-accent);
+            background-color: var(--ink);
+            border-color: var(--ink);
+        }
+
+        body.high-contrast .desktop-tab.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--accent);
+        }
+
+        /* Barra utilitária de acessibilidade (sempre >= 44px no toque) */
+        .util-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 0 10px;
+            border-top: 1px solid var(--rule);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .util-bar::-webkit-scrollbar { display: none; }
+
+        .util-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-height: 44px;
+            min-width: 44px;
+            padding: 0 10px;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+            color: var(--ink);
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .util-btn:hover {
+            border-color: var(--ink);
+        }
+
+        .util-btn.active {
+            background-color: var(--ink);
+            color: var(--surface);
+            border-color: var(--ink);
+        }
+
+        body.high-contrast .util-btn.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--accent);
+        }
+
+        .util-btn svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+        }
+
+        .font-indicator {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-muted);
+            padding: 0 2px;
+            flex-shrink: 0;
+        }
+
+        /* Aviso discreto do VLibras */
+        .libras-notice {
+            background-color: var(--anil-tint);
+            border-top: 1.5px solid var(--anil);
+            border-bottom: 1.5px solid var(--anil);
+            padding: 10px 0;
+            font-size: 0.88rem;
+        }
+
+        .libras-notice-inner {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        /* ============================================================
+           07. NAVEGAÇÃO INFERIOR FIXA (MOBILE-FIRST)
+           ============================================================ */
+        .bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 40;
+            background-color: var(--surface);
+            border-top: 1.5px solid var(--ink);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+        }
+
+        .bottom-tab {
+            min-height: var(--bottom-nav-h);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-muted);
+            border: none;
+            border-top: 3px solid transparent;
+            margin-top: -1.5px;
+        }
+
+        .bottom-tab svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .bottom-tab.active {
+            color: var(--ink);
+            border-top-color: var(--accent);
+            background-color: var(--paper);
+        }
+
+        /* ============================================================
+           08. BOTÕES TÁTEIS (BRAUN / EDITORIAL)
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 44px;
+            padding: 0 16px;
+            border-radius: var(--r-md);
+            font-weight: 700;
+            font-size: 0.94rem;
+            border: 1.5px solid var(--ink);
+            background-color: var(--surface);
+            color: var(--ink);
+            transition: transform 0.06s ease, box-shadow 0.06s ease, background-color 0.12s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--surface-alt);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--ink);
+            box-shadow: 2px 2px 0 var(--shadow-ink);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            filter: brightness(0.95);
+        }
+
+        .btn-primary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 var(--shadow-ink);
+        }
+
+        .btn-ink {
+            background-color: var(--ink);
+            color: var(--surface);
+            border-color: var(--ink);
+            box-shadow: 2px 2px 0 var(--rule);
+        }
+
+        body.high-contrast .btn-ink {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--accent);
+            box-shadow: none;
+        }
+
+        .btn-subtle {
+            border-color: var(--rule);
+            background-color: var(--paper);
+        }
+
+        .btn-subtle:hover {
+            border-color: var(--ink);
+        }
+
+        .btn-block {
+            width: 100%;
+            min-height: 50px;
+            font-size: 1rem;
+        }
+
+        .btn-icon {
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0 10px;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--ink);
+        }
+
+        .btn-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ============================================================
+           09. ALTERNADOR DE OPERAÇÃO E SELETORES 1-10
+           ============================================================ */
+        .seg-switch {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-md);
+            overflow: hidden;
+            background-color: var(--surface);
+        }
+
+        .seg-switch.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .seg-btn {
+            min-height: 46px;
+            padding: 8px 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--ink-muted);
+            border: none;
+            border-right: 1.5px solid var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .seg-btn:last-child {
+            border-right: none;
+        }
+
+        .seg-btn.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+        }
+
+        /* Faixa horizontal com scroll-snap no mobile */
+        .num-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .num-strip::-webkit-scrollbar { display: none; }
+
+        @media (min-width: 640px) {
+            .num-strip {
+                display: grid;
+                grid-template-columns: repeat(10, 1fr);
+                overflow-x: visible;
+                padding-bottom: 0;
+            }
+        }
+
+        .num-chip {
+            flex: 0 0 54px;
+            min-height: 48px;
+            scroll-snap-align: start;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--surface);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-variant-numeric: tabular-nums;
+            color: var(--ink);
+        }
+
+        .num-chip:hover {
+            border-color: var(--ink);
+        }
+
+        .num-chip.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--ink);
+            box-shadow: 2px 2px 0 var(--shadow-ink);
+        }
+
+        .num-grid-10 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+
+        @media (min-width: 640px) {
+            .num-grid-10 {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+
+        .num-grid-10 .num-chip {
+            flex: none;
+            width: 100%;
+        }
+
+        /* ============================================================
+           10. ABA 01: ESTUDAR
+           ============================================================ */
+        .strategy-strip {
+            border-left: 4px solid var(--accent);
+            background-color: var(--surface);
+            border-top: 1px solid var(--rule);
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            border-radius: 0 var(--r-md) var(--r-md) 0;
+            padding: 12px 14px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .study-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 860px) {
+            .study-layout {
+                grid-template-columns: 1fr 1.12fr;
+                align-items: start;
+            }
+            .study-sticky {
+                position: sticky;
+                top: 118px;
+            }
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border-top: 1.5px solid var(--ink);
+        }
+
+        .fact-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 10px 10px;
+            border-bottom: 1px solid var(--rule);
+            background-color: var(--surface);
+            cursor: pointer;
+        }
+
+        .fact-item:hover {
+            background-color: var(--surface-alt);
+        }
+
+        .fact-item.selected {
+            background-color: var(--accent-tint);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .fact-eq {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.28rem;
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .fact-res {
+            color: var(--accent);
+        }
+
+        .fact-mask {
+            display: inline-block;
+            min-width: 34px;
+            text-align: center;
+            border-bottom: 2px solid var(--ink);
+            color: var(--ink-muted);
+            font-size: 1.05rem;
+        }
+
+        .explain-big-eq {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+            margin: 4px 0 0;
+        }
+
+        .explain-block {
+            padding: 12px 0;
+            border-top: 1px solid var(--rule);
+        }
+
+        .explain-block:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .explain-block p {
+            margin: 4px 0 0;
+            font-size: 0.96rem;
+        }
+
+        /* Visualização geométrica limpa (pontos para ×, caixas para ÷) */
+        .dot-matrix {
+            display: inline-grid;
+            gap: 4px;
+            padding: 10px;
+            background-color: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: var(--r-sm);
+            margin-top: 8px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .dot-pt {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background-color: var(--accent);
+        }
+
+        .dot-pt.rem {
+            background-color: var(--ocre);
+            border-radius: 2px;
+        }
+
+        .groups-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .group-card {
+            background-color: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: var(--r-sm);
+            padding: 7px 9px;
+            min-width: 72px;
+            flex: 1 1 78px;
+            max-width: 132px;
+        }
+
+        .group-card.rem-card {
+            border-color: var(--ocre);
+            background-color: var(--ocre-tint);
+        }
+
+        .group-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-muted);
+            margin-bottom: 5px;
+        }
+
+        .group-dots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        /* Details estilizados (Tabela 10x10 e Laboratório de Resto) */
+        details.editorial-drawer {
+            background-color: var(--surface);
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-md);
+        }
+
+        details.editorial-drawer[open] {
+            border-color: var(--ink);
+        }
+
+        details.editorial-drawer summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.02rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: 48px;
+        }
+
+        details.editorial-drawer summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .drawer-chev {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.16s ease;
+            flex-shrink: 0;
+        }
+
+        details.editorial-drawer[open] .drawer-chev {
+            transform: rotate(180deg);
+        }
+
+        .drawer-body {
+            padding: 0 16px 16px;
+            border-top: 1px solid var(--rule);
+            padding-top: 14px;
+        }
+
+        /* Tabela 10x10 */
+        .matrix-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .matrix-11 {
+            min-width: 340px;
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            gap: 3px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .m-head {
+            padding: 6px 2px;
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background-color: var(--surface-alt);
+            border-radius: 3px;
+            color: var(--ink-muted);
+        }
+
+        .m-corner {
+            background-color: var(--ink);
+            color: var(--surface);
+        }
+
+        .m-cell {
+            min-height: 34px;
+            padding: 4px 2px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background-color: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: 3px;
+        }
+
+        .m-cell:hover {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--ink);
+        }
+
+        /* Laboratório de Resto */
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 560px) {
+            .lab-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .stepper-btn {
+            width: 44px;
+            height: 44px;
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+            font-size: 1.25rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .stepper-val {
+            width: 100%;
+            min-height: 44px;
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--surface);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .lab-readout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .readout-box {
+            padding: 10px 12px;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+        }
+
+        .readout-val {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           11. ABA 02: PRATICAR (OTIMIZADA PARA O POLEGAR)
+           ============================================================ */
+        .check-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 600px) {
+            .check-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .check-tile {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 11px 12px;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-md);
+            background-color: var(--surface);
+            text-align: left;
+            width: 100%;
+            min-height: 54px;
+        }
+
+        .check-tile.active {
+            border-color: var(--ink);
+            background-color: var(--accent-tint);
+        }
+
+        .check-mark {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid var(--ink);
+            border-radius: 3px;
+            background-color: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-tile.active .check-mark {
+            background-color: var(--accent);
+            border-color: var(--ink);
+            color: var(--on-accent);
+        }
+
+        /* Sessão ativa compacta no mobile */
+        .practice-shell {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .round-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--rule);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .progress-rule {
+            width: 100%;
+            height: 5px;
+            background-color: var(--surface-alt);
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-rule-fill {
+            height: 100%;
+            background-color: var(--accent);
+            transition: width 0.25s ease;
+        }
+
+        .q-stage {
+            background-color: var(--surface);
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-md);
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .q-stage.is-correct {
+            border-color: var(--mata);
+            box-shadow: inset 4px 0 0 var(--mata);
+        }
+
+        .q-stage.is-wrong {
+            border-color: var(--ocre);
+            box-shadow: inset 4px 0 0 var(--ocre);
+        }
+
+        .q-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .q-tag {
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--accent);
+        }
+
+        .q-retry-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ocre);
+            border: 1px solid var(--ocre);
+            border-radius: 3px;
+            padding: 1px 6px;
+        }
+
+        .q-story {
+            margin: 0 0 6px;
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--ink);
+        }
+
+        .q-equation {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(1.75rem, 7vw, 2.4rem);
+            line-height: 1.15;
+            text-align: center;
+            margin: 6px 0 10px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .q-equation.is-question {
+            font-size: clamp(1.15rem, 4.4vw, 1.45rem);
+            text-align: left;
+            margin: 4px 0 10px;
+        }
+
+        .hint-panel {
+            background-color: var(--ocre-tint);
+            border-left: 3px solid var(--ocre);
+            padding: 9px 12px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        /* Visor estilo calculadora Braun */
+        .calc-display-wrap {
+            margin-bottom: 10px;
+        }
+
+        .calc-display {
+            width: 100%;
+            min-height: 52px;
+            padding: 8px 14px;
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            color: var(--ink);
+        }
+
+        .calc-dual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .dual-field {
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        .dual-field.focused {
+            border-color: var(--ink);
+            background-color: var(--surface);
+            box-shadow: inset 0 -3px 0 var(--accent);
+        }
+
+        .dual-field input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            padding: 2px 0 0;
+            outline: none;
+        }
+
+        /* Teclado físico Braun / Dieter Rams */
+        .braun-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            background-color: var(--surface-alt);
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-md);
+            padding: 8px;
+        }
+
+        .pad-key {
+            min-height: 48px;
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-sm);
+            background-color: var(--surface);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            box-shadow: 2px 2px 0 var(--shadow-ink);
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+        }
+
+        .pad-key:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 var(--shadow-ink);
+        }
+
+        .pad-key.key-del {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            background-color: var(--paper);
+        }
+
+        .pad-key.key-ok {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            background-color: var(--accent);
+            color: var(--on-accent);
+        }
+
+        /* Botões grandes para Estimativa */
+        .est-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .est-options.cols-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .est-options.cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .est-btn {
+            min-height: 54px;
+            padding: 12px 14px;
+            border: 1.5px solid var(--ink);
+            border-radius: var(--r-md);
+            background-color: var(--paper);
+            font-weight: 700;
+            font-size: 1.02rem;
+            box-shadow: 2px 2px 0 var(--shadow-ink);
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+        }
+
+        .est-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 var(--shadow-ink);
+        }
+
+        .est-btn.picked-ok {
+            background-color: var(--mata);
+            color: #FBF9F4;
+        }
+
+        .est-btn.picked-err {
+            background-color: var(--ocre-tint);
+            border-color: var(--ocre);
+        }
+
+        .est-btn.reveal-ok {
+            background-color: var(--mata-tint);
+            border-color: var(--mata);
+            color: var(--mata);
+        }
+
+        .feedback-strip {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: var(--r-sm);
+            border: 1.5px solid var(--rule);
+        }
+
+        .feedback-strip.ok {
+            background-color: var(--mata-tint);
+            border-color: var(--mata);
+        }
+
+        .feedback-strip.err {
+            background-color: var(--ocre-tint);
+            border-color: var(--ocre);
+        }
+
+        /* ============================================================
+           12. ABA 03: PROGRESSO
+           ============================================================ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 640px) {
+            .kpi-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .kpi-val {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.9rem;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+            margin-top: 4px;
+        }
+
+        .goal-btn {
+            min-height: 34px;
+            min-width: 38px;
+            padding: 0 8px;
+            border: 1.5px solid var(--rule);
+            border-radius: var(--r-sm);
+            font-size: 0.8rem;
+            font-weight: 700;
+            background-color: var(--paper);
+        }
+
+        .goal-btn.active {
+            border-color: var(--ink);
+            background-color: var(--ink);
+            color: var(--surface);
+        }
+
+        body.high-contrast .goal-btn.active {
+            background-color: var(--accent);
+            color: var(--on-accent);
+            border-color: var(--accent);
+        }
+
+        .bars-2col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 680px) {
+            .bars-2col {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .bar-row {
+            padding: 10px 12px;
+            border: 1px solid var(--rule);
+            border-radius: var(--r-sm);
+            background-color: var(--paper);
+        }
+
+        .bar-track {
+            height: 6px;
+            background-color: var(--surface-alt);
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background-color: var(--accent);
+        }
+
+        .bar-fill.done {
+            background-color: var(--mata);
+        }
+
+        .reforco-chip {
+            display: inline-block;
+            padding: 6px 10px;
+            border: 1.5px solid var(--ocre);
+            border-radius: var(--r-sm);
+            background-color: var(--ocre-tint);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.94rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Matriz 10x10 com escala de densidade de tinta */
+        .ink-cell {
+            aspect-ratio: 1 / 1;
+            min-height: 30px;
+            border-radius: 3px;
+            border: 1px solid var(--rule);
+            font-size: 0.78rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ink-0 {
+            background-color: var(--paper);
+            color: var(--ink-muted);
+        }
+
+        .ink-1 {
+            background-color: rgba(26, 25, 22, 0.16);
+            color: var(--ink);
+            border-color: rgba(26, 25, 22, 0.35);
+        }
+
+        .ink-2 {
+            background-color: rgba(26, 25, 22, 0.45);
+            color: #FBF9F4;
+            border-color: rgba(26, 25, 22, 0.65);
+        }
+
+        .ink-3 {
+            background-color: var(--ink);
+            color: var(--surface);
+            border-color: var(--ink);
+        }
+
+        body.high-contrast .ink-0 { background-color: #141414; color: #A0A0A0; border-color: #555; }
+        body.high-contrast .ink-1 { background-color: #333333; color: #FFFFFF; border-color: #FFFFFF; }
+        body.high-contrast .ink-2 { background-color: #666666; color: #FFFFFF; border-color: #FFFFFF; }
+        body.high-contrast .ink-3 { background-color: #FFD400; color: #0A0A0A; border-color: #FFD400; }
+
+        .swatch {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border-radius: 2px;
+            vertical-align: -2px;
+            border: 1px solid var(--rule);
+        }
+
+        /* ============================================================
+           13. MODAL EDITORIAL (REINICIAR EM DOIS PASSOS)
+           ============================================================ */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            background: rgba(26, 25, 22, 0.62);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: var(--r-md);
+            padding: 20px;
+            box-shadow: 4px 4px 0 var(--shadow-ink);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         CABEÇALHO EDITORIAL E BARRA DE ACESSIBILIDADE
+         ============================================================ -->
+    <header class="masthead">
+        <div class="wrap">
+            <div class="masthead-top">
+                <div class="brand-lockup">
+                    <h1 class="brand-name">Caderno de Contas</h1>
+                    <span class="brand-tag">EJA</span>
+                </div>
+
+                <!-- Navegação horizontal para tablet e desktop (>= 768px) -->
+                <nav class="desktop-nav" aria-label="Navegação principal">
+                    <button type="button" class="desktop-tab active" data-nav="estudar" onclick="switchTab('estudar')">Estudar</button>
+                    <button type="button" class="desktop-tab" data-nav="praticar" onclick="switchTab('praticar')">Praticar</button>
+                    <button type="button" class="desktop-tab" data-nav="progresso" onclick="switchTab('progresso')">Progresso</button>
+                </nav>
+            </div>
+
+            <!-- Barra utilitária tátil (>= 44px) -->
+            <div class="util-bar" role="toolbar" aria-label="Ferramentas de acessibilidade">
+                <button type="button" class="util-btn" onclick="changeFont(-1)" aria-label="Diminuir letra">A−</button>
+                <span id="font-pct" class="font-indicator num">100%</span>
+                <button type="button" class="util-btn" onclick="changeFont(1)" aria-label="Aumentar letra">A+</button>
+
+                <button type="button" id="btn-contrast" class="util-btn" onclick="toggleContrast()" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 3v18"></path>
+                        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"></path>
+                    </svg>
+                    <span>Contraste</span>
+                </button>
+
+                <button type="button" id="btn-voice" class="util-btn" onclick="toggleAutoVoice()" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                        <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+                    </svg>
+                    <span id="voice-label">Voz</span>
+                </button>
+
+                <button type="button" id="btn-libras" class="util-btn" onclick="toggleLibrasGuide()" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 11V6a2 2 0 0 0-4 0v4"></path>
+                        <path d="M14 10V4a2 2 0 0 0-4 0v6"></path>
+                        <path d="M10 10.5V6a2 2 0 0 0-4 0v8"></path>
+                        <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2a8 8 0 0 1-6.5-3.4L3 14a2 2 0 0 1 3.2-2.4L8 13"></path>
+                    </svg>
+                    <span>Libras</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Aviso discreto do VLibras -->
+        <div id="libras-notice" class="libras-notice hidden" role="status" aria-live="polite">
+            <div class="wrap libras-notice-inner">
+                <p id="libras-notice-text" style="margin:0;">
+                    O intérprete 3D em Libras (VLibras) está disponível no botão lateral. Com o painel aberto, toque em qualquer frase ou conta para ver a tradução.
+                </p>
+                <button type="button" class="btn-icon" style="min-height:34px; min-width:34px;" onclick="closeLibrasNotice()" aria-label="Fechar aviso de Libras">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         CONTEÚDO PRINCIPAL
+         ============================================================ -->
+    <main class="wrap">
+
+        <!-- ========================================================
+             ABA 01: ESTUDAR
+             ======================================================== -->
+        <section id="view-estudar" class="stack-md" data-op="mult">
+            <div class="section-head">
+                <h2 class="h-display"><span class="section-num">01</span>Estudar</h2>
+                <button type="button" id="btn-flashcard" class="btn-icon" onclick="toggleFlashcard()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span id="flashcard-label">Esconder respostas</span>
+                </button>
+            </div>
+
+            <!-- Alternador × Multiplicação | ÷ Divisão -->
+            <div class="seg-switch" role="tablist" aria-label="Escolher operação para estudar">
+                <button type="button" id="study-op-mult" class="seg-btn active" role="tab" aria-selected="true" onclick="setStudyOp('mult')">× Multiplicação</button>
+                <button type="button" id="study-op-div" class="seg-btn" role="tab" aria-selected="false" onclick="setStudyOp('div')">÷ Divisão</button>
+            </div>
+
+            <!-- Seletor horizontal scroll-snap 1–10 -->
+            <div>
+                <span id="study-strip-label" class="label-meta" style="margin-bottom:6px;">Tabuada de 1 a 10</span>
+                <div id="study-num-strip" class="num-strip" role="group" aria-label="Escolher número"></div>
+            </div>
+
+            <!-- Nota direta de estratégia mental -->
+            <div class="strategy-strip">
+                <div>
+                    <span class="label-meta">Como pensar</span>
+                    <strong id="study-trick-title" style="display:block; margin-top:2px;"></strong>
+                    <p id="study-trick-text" class="muted" style="margin-top:2px;"></p>
+                </div>
+                <button type="button" class="btn-icon" onclick="speakStudyTrick()" aria-label="Ouvir estratégia">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Grade de contas + Painel editorial "Como pensar essa conta" -->
+            <div class="study-layout">
+                <div class="sheet" style="padding:12px;">
+                    <div class="row-between" style="margin-bottom:8px;">
+                        <h3 id="study-list-heading" class="h-sub">Tabuada do 2</h3>
+                        <span class="muted" style="font-size:0.82rem;">Toque em uma conta</span>
+                    </div>
+                    <div id="study-facts-list" class="facts-grid"></div>
+                </div>
+
+                <div class="sheet-framed study-sticky stack-sm">
+                    <div class="row-between" style="align-items:flex-start;">
+                        <div>
+                            <span class="label-meta">Como pensar essa conta</span>
+                            <div id="explain-eq" class="explain-big-eq">2 × 6 = 12</div>
+                        </div>
+                        <button type="button" class="btn-icon" onclick="speakStudyExplain()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                            </svg>
+                            <span>Ouvir</span>
+                        </button>
+                    </div>
+                    <div id="explain-content"></div>
+                </div>
+            </div>
+
+            <!-- Seções retráteis: Tabela 10x10 e Laboratório de Resto -->
+            <details class="editorial-drawer" id="drawer-table">
+                <summary>
+                    <span>Tabela completa 10×10</span>
+                    <svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                </summary>
+                <div class="drawer-body stack-sm">
+                    <p class="muted">Toque em qualquer resultado para abrir a explicação da conta.</p>
+                    <div class="matrix-scroll">
+                        <div id="study-full-matrix" class="matrix-11"></div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="editorial-drawer" id="drawer-remainder">
+                <summary>
+                    <span>Laboratório de Resto (quando sobra troco)</span>
+                    <svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                </summary>
+                <div class="drawer-body stack-md">
+                    <p class="muted">Teste dividir um valor em reais entre um grupo de pessoas para ver quanto vai para cada uma e quanto sobra.</p>
+                    <div class="lab-grid">
+                        <div>
+                            <label for="lab-total" class="label-meta">Total em reais (R$)</label>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn" onclick="stepLab('total', -1)" aria-label="Diminuir valor">−</button>
+                                <input type="number" id="lab-total" class="stepper-val" value="27" min="1" max="100" oninput="renderLab()">
+                                <button type="button" class="stepper-btn" onclick="stepLab('total', 1)" aria-label="Aumentar valor">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="lab-div" class="label-meta">Dividir entre (pessoas)</label>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn" onclick="stepLab('div', -1)" aria-label="Diminuir pessoas">−</button>
+                                <input type="number" id="lab-div" class="stepper-val" value="4" min="2" max="10" oninput="renderLab()">
+                                <button type="button" class="stepper-btn" onclick="stepLab('div', 1)" aria-label="Aumentar pessoas">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lab-result" class="stack-sm"></div>
+                </div>
+            </details>
+        </section>
+
+        <!-- ========================================================
+             ABA 02: PRATICAR (MOTOR PROCEDURAL)
+             ======================================================== -->
+        <section id="view-praticar" class="stack-md hidden" data-op="mult">
+
+            <!-- TELA A: CONFIGURAÇÃO -->
+            <div id="prac-setup" class="stack-md">
+                <div class="section-head">
+                    <h2 class="h-display"><span class="section-num">02</span>Praticar</h2>
+                    <span class="muted" style="font-size:0.84rem;">10 contas · sem tempo</span>
+                </div>
+
+                <div class="sheet stack-md">
+                    <div>
+                        <span class="label-meta" style="margin-bottom:6px;">Operação</span>
+                        <div class="seg-switch cols-3">
+                            <button type="button" id="p-op-mult" class="seg-btn active" onclick="setPracOp('mult')">Multiplicação</button>
+                            <button type="button" id="p-op-div" class="seg-btn" onclick="setPracOp('div')">Divisão</button>
+                            <button type="button" id="p-op-mixed" class="seg-btn" onclick="setPracOp('mixed')">Misto (× e ÷)</button>
+                        </div>
+                    </div>
+
+                    <div class="stack-sm">
+                        <span class="label-meta">Números</span>
+                        <div class="row-gap">
+                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('easy')">Fáceis (1,2,5,10)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('med')">Médias (3,4,6)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('hard')">Difíceis (7,8,9)</button>
+                            <button type="button" class="btn btn-subtle" style="min-height:38px; padding:0 11px; font-size:0.84rem;" onclick="applyPreset('all')">Todas</button>
+                        </div>
+                        <div id="prac-num-grid" class="num-grid-10"></div>
+                    </div>
+
+                    <div class="stack-sm">
+                        <span class="label-meta">Tipos de questão</span>
+                        <div id="prac-style-grid" class="check-grid"></div>
+                    </div>
+
+                    <div id="prac-rem-wrap" class="hidden">
+                        <button type="button" id="btn-rem-toggle" class="check-tile" onclick="togglePracRemainder()">
+                            <span class="check-mark" id="rem-check-mark"></span>
+                            <div>
+                                <strong style="display:block; font-size:0.94rem;">Incluir divisão com resto</strong>
+                                <span class="muted" style="font-size:0.84rem;">Informe quanto vai para cada e quanto sobra.</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-block" onclick="startRound()">
+                        Iniciar rodada de 10 contas
+                    </button>
+                </div>
+            </div>
+
+            <!-- TELA B: SESSÃO ATIVA (OTIMIZADA PARA O POLEGAR) -->
+            <div id="prac-active" class="practice-shell hidden">
+                <div class="round-bar">
+                    <span class="num">Conta <span id="r-cur">1</span> de 10 · <span id="r-rem" style="color:var(--ink-muted); font-weight:400;">Faltam 9 contas.</span></span>
+                    <button type="button" class="btn-icon" style="min-height:36px; padding:0 10px; font-size:0.8rem;" onclick="exitToSetup()">Configurar</button>
+                </div>
+                <div class="progress-rule">
+                    <div id="r-bar" class="progress-rule-fill" style="width:10%;"></div>
+                </div>
+
+                <div id="q-stage" class="q-stage">
+                    <div class="q-meta-row">
+                        <div class="row-gap" style="gap:6px;">
+                            <span id="q-tag" class="q-tag">Conta direta</span>
+                            <span id="q-retry" class="q-retry-tag hidden">Reforço</span>
+                        </div>
+                        <div class="row-gap" style="gap:6px;">
+                            <button type="button" id="btn-hint" class="btn-icon" style="min-height:38px; padding:0 10px; font-size:0.82rem;" onclick="showHint()">Dica</button>
+                            <button type="button" class="btn-icon" style="min-height:38px; min-width:38px;" onclick="speakQuestion()" aria-label="Ouvir questão">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                                    <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p id="q-story" class="q-story hidden"></p>
+                    <div id="q-eq" class="q-equation">7 × 6 = ?</div>
+
+                    <div id="q-hint-box" class="hint-panel hidden">
+                        <span id="q-hint-text"></span>
+                        <button type="button" class="btn-icon" style="min-height:34px; min-width:34px; flex-shrink:0;" onclick="speakHint()" aria-label="Ouvir dica">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Entrada numérica única (Contas diretas, Dia a dia, Complete) -->
+                    <div id="input-single-wrap" class="calc-display-wrap">
+                        <input type="number" id="ans-single" class="calc-display" inputmode="none" placeholder="0" aria-label="Resposta numérica">
+                    </div>
+
+                    <!-- Entrada dupla (Divisão com resto: Para cada / Sobra) -->
+                    <div id="input-dual-wrap" class="calc-dual hidden">
+                        <div id="dual-box-q" class="dual-field focused" onclick="focusDual('q')">
+                            <label for="ans-q" class="label-meta">Para cada</label>
+                            <input type="number" id="ans-q" inputmode="none" placeholder="0" onfocus="focusDual('q')">
+                        </div>
+                        <div id="dual-box-r" class="dual-field" onclick="focusDual('r')">
+                            <label for="ans-r" class="label-meta">Sobra</label>
+                            <input type="number" id="ans-r" inputmode="none" placeholder="0" onfocus="focusDual('r')">
+                        </div>
+                    </div>
+
+                    <!-- Teclado físico Braun -->
+                    <div id="braun-pad" class="braun-pad" role="group" aria-label="Teclado numérico">
+                        <button type="button" class="pad-key" onclick="padKey('7')">7</button>
+                        <button type="button" class="pad-key" onclick="padKey('8')">8</button>
+                        <button type="button" class="pad-key" onclick="padKey('9')">9</button>
+                        <button type="button" class="pad-key" onclick="padKey('4')">4</button>
+                        <button type="button" class="pad-key" onclick="padKey('5')">5</button>
+                        <button type="button" class="pad-key" onclick="padKey('6')">6</button>
+                        <button type="button" class="pad-key" onclick="padKey('1')">1</button>
+                        <button type="button" class="pad-key" onclick="padKey('2')">2</button>
+                        <button type="button" class="pad-key" onclick="padKey('3')">3</button>
+                        <button type="button" class="pad-key key-del" onclick="padBackspace()">Apagar</button>
+                        <button type="button" class="pad-key" onclick="padKey('0')">0</button>
+                        <button type="button" class="pad-key key-ok" onclick="submitNumeric()">Confirmar</button>
+                    </div>
+
+                    <!-- Opções grandes (Estimativa) -->
+                    <div id="est-options" class="est-options hidden"></div>
+
+                    <!-- Retorno direto e respeitoso -->
+                    <div id="q-feedback" class="feedback-strip hidden"></div>
+                </div>
+            </div>
+
+            <!-- TELA C: RESUMO FINAL -->
+            <div id="prac-summary" class="practice-shell hidden">
+                <div class="sheet-framed stack-md">
+                    <div class="section-head" style="margin-bottom:0;">
+                        <h2 class="h-display">Rodada concluída.</h2>
+                        <span id="sum-score" class="h-display num" style="color:var(--accent);">0/10</span>
+                    </div>
+
+                    <p id="sum-note" class="muted"></p>
+
+                    <div id="sum-details" class="stack-sm"></div>
+
+                    <div class="check-grid">
+                        <button type="button" class="btn btn-primary" onclick="startRound()">Nova rodada</button>
+                        <button type="button" class="btn" onclick="exitToSetup()">Mudar configuração</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             ABA 03: PROGRESSO
+             ======================================================== -->
+        <section id="view-progresso" class="stack-md hidden" data-op="mult">
+            <div class="section-head">
+                <h2 class="h-display"><span class="section-num">03</span>Progresso</h2>
+                <button type="button" class="btn btn-subtle" style="min-height:36px; padding:0 12px; font-size:0.82rem;" onclick="openResetModal()">Reiniciar</button>
+            </div>
+
+            <!-- Indicadores gerais e meta diária -->
+            <div class="kpi-grid">
+                <div class="sheet">
+                    <span class="label-meta">Contas feitas</span>
+                    <div id="kpi-total" class="kpi-val">0</div>
+                    <p class="muted" style="font-size:0.84rem;">multiplicação e divisão</p>
+                </div>
+
+                <div class="sheet">
+                    <span class="label-meta">Acertos</span>
+                    <div id="kpi-acc" class="kpi-val" style="color:var(--mata);">—</div>
+                    <p class="muted" style="font-size:0.84rem;">média acumulada</p>
+                </div>
+
+                <div class="sheet">
+                    <div class="row-between" style="gap:6px;">
+                        <span class="label-meta">Meta de hoje</span>
+                        <div class="row-gap" style="gap:4px;" role="group" aria-label="Meta diária">
+                            <button type="button" class="goal-btn" data-goal="10" onclick="setGoal(10)">10</button>
+                            <button type="button" class="goal-btn" data-goal="20" onclick="setGoal(20)">20</button>
+                            <button type="button" class="goal-btn" data-goal="30" onclick="setGoal(30)">30</button>
+                        </div>
+                    </div>
+                    <div class="kpi-val"><span id="kpi-today">0</span><span style="font-size:1rem; color:var(--ink-muted);">/<span id="kpi-goal">20</span></span></div>
+                    <div class="bar-track" style="margin-top:8px;">
+                        <div id="kpi-today-bar" class="bar-fill" style="width:0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternador Multiplicação | Divisão -->
+            <div class="seg-switch" role="tablist" aria-label="Progresso por operação">
+                <button type="button" id="prog-op-mult" class="seg-btn active" onclick="setProgOp('mult')">× Multiplicação</button>
+                <button type="button" id="prog-op-div" class="seg-btn" onclick="setProgOp('div')">÷ Divisão</button>
+            </div>
+
+            <!-- Contas para reforçar -->
+            <div class="sheet stack-sm">
+                <div class="row-between">
+                    <div>
+                        <h3 class="h-sub">Contas para reforçar</h3>
+                        <p class="muted" style="font-size:0.86rem;">Fatos em que houve erro ou dúvida recente.</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" style="min-height:40px; font-size:0.88rem;" onclick="practiceWeakNow()">Praticar essas agora</button>
+                </div>
+                <div id="prog-weak-list" class="row-gap"></div>
+            </div>
+
+            <!-- Progresso por tabuada / divisor -->
+            <div class="sheet stack-sm">
+                <h3 id="prog-bars-title" class="h-sub">Por tabuada (1 a 10)</h3>
+                <div id="prog-bars" class="bars-2col"></div>
+            </div>
+
+            <!-- Matriz 10x10 de densidade de tinta -->
+            <div class="sheet stack-sm">
+                <div class="row-between">
+                    <div>
+                        <h3 id="prog-map-title" class="h-sub">Mapa de domínio 10×10</h3>
+                        <p id="prog-map-sub" class="muted" style="font-size:0.85rem;">Toque em uma célula para ver os dados.</p>
+                    </div>
+                    <div class="row-gap" style="font-size:0.78rem; color:var(--ink-muted);">
+                        <span><span class="swatch ink-0"></span> Sem registro</span>
+                        <span><span class="swatch ink-1"></span> Início</span>
+                        <span><span class="swatch ink-2"></span> Em prática</span>
+                        <span><span class="swatch ink-3"></span> Dominada</span>
+                    </div>
+                </div>
+
+                <div class="matrix-scroll">
+                    <div id="prog-matrix" class="matrix-11" style="max-width:560px; margin:0 auto;"></div>
+                </div>
+
+                <div id="prog-cell-info" class="row-between hidden" style="padding-top:10px; border-top:1px solid var(--rule);">
+                    <div>
+                        <strong id="cell-info-title" class="num" style="display:block;"></strong>
+                        <span id="cell-info-meta" class="muted" style="font-size:0.86rem;"></span>
+                    </div>
+                    <button type="button" id="cell-info-btn" class="btn" style="min-height:40px; font-size:0.86rem;"></button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================
+         NAVEGAÇÃO INFERIOR FIXA (CELULAR)
+         ============================================================ -->
+    <nav class="bottom-nav" aria-label="Navegação inferior">
+        <button type="button" class="bottom-tab active" data-nav="estudar" onclick="switchTab('estudar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Estudar</span>
+        </button>
+
+        <button type="button" class="bottom-tab" data-nav="praticar" onclick="switchTab('praticar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+                <path d="M8 7h8"></path>
+                <path d="M8 12h2M14 12h2M8 16h2M14 16h2"></path>
+            </svg>
+            <span>Praticar</span>
+        </button>
+
+        <button type="button" class="bottom-tab" data-nav="progresso" onclick="switchTab('progresso')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19h16"></path>
+                <path d="M7 16v-5"></path>
+                <path d="M12 16V8"></path>
+                <path d="M17 16v-9"></path>
+            </svg>
+            <span>Progresso</span>
+        </button>
+    </nav>
+
+    <!-- ============================================================
+         MODAL DE CONFIRMAÇÃO EM DOIS PASSOS (REINICIAR PROGRESSO)
+         ============================================================ -->
+    <div id="reset-modal" class="modal-bg hidden" role="dialog" aria-modal="true" aria-labelledby="rm-title">
+        <div class="modal-card stack-md">
+            <h3 id="rm-title" class="h-display">Reiniciar progresso?</h3>
+            <p id="rm-desc" class="muted">Os registros de multiplicação, divisão e a meta de hoje serão apagados deste aparelho.</p>
+            <div class="row-gap" style="justify-content:flex-end;">
+                <button type="button" class="btn btn-subtle" onclick="closeResetModal()">Cancelar</button>
+                <button type="button" id="rm-confirm" class="btn btn-primary" onclick="confirmResetStep()">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         VLIBRAS WIDGET OFICIAL (UNITY WEBGL 3D)
+         ============================================================ -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js" onerror="window.__vlibrasFailed=true;"></script>
+
+    <!-- ============================================================
+         LÓGICA DA APLICAÇÃO
+         ============================================================ -->
+    <script>
+        /* ============================================================
+           01. INICIALIZAÇÃO DO VLIBRAS E AVISO DE ACESSIBILIDADE
+           ============================================================ */
+        let vlibrasReady = false;
+
+        function initVLibras() {
+            try {
+                if (window.VLibras && typeof window.VLibras.Widget === 'function') {
+                    new window.VLibras.Widget('https://vlibras.gov.br/app');
+                    vlibrasReady = true;
+                }
+            } catch (e) {
+                vlibrasReady = false;
+            }
+        }
+
+        function toggleLibrasGuide() {
+            const notice = document.getElementById('libras-notice');
+            const text = document.getElementById('libras-notice-text');
+            const btn = document.getElementById('btn-libras');
+            const vwBtn = document.querySelector('[vw-access-button]');
+
+            if (vlibrasReady && vwBtn) {
+                try { vwBtn.click(); } catch (e) {}
+                text.textContent = 'Intérprete em Libras (VLibras) acionado. Com o painel aberto, toque em qualquer frase ou enunciado para ver a tradução em 3D.';
+            } else {
+                text.textContent = 'O recurso VLibras precisa de conexão com a internet (vlibras.gov.br) e não pôde ser carregado agora. As demais funções do caderno continuam disponíveis.';
+            }
+
+            const show = notice.classList.toggle('hidden') === false;
+            btn.classList.toggle('active', show);
+            btn.setAttribute('aria-pressed', String(show));
+        }
+
+        function closeLibrasNotice() {
+            document.getElementById('libras-notice').classList.add('hidden');
+            const btn = document.getElementById('btn-libras');
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+        }
+
+        /* ============================================================
+           02. UTILITÁRIOS: PORTUGUÊS, VOZ E ACESSIBILIDADE
+           ============================================================ */
+        function plural(n, s, p) {
+            return Math.abs(n) === 1 ? s : p;
+        }
+
+        function reais(v) {
+            return `R$ ${v}`;
+        }
+
+        function pick(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function rint(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const FONT_STEPS = [100, 112, 125, 138];
+        let fontIdx = 0;
+
+        function changeFont(delta) {
+            fontIdx = Math.max(0, Math.min(FONT_STEPS.length - 1, fontIdx + delta));
+            const pct = FONT_STEPS[fontIdx];
+            document.documentElement.style.fontSize = `${(16 * pct) / 100}px`;
+            document.getElementById('font-pct').textContent = `${pct}%`;
+        }
+
+        function toggleContrast() {
+            const on = document.body.classList.toggle('high-contrast');
+            const btn = document.getElementById('btn-contrast');
+            btn.classList.toggle('active', on);
+            btn.setAttribute('aria-pressed', String(on));
+        }
+
+        let autoVoice = false;
+
+        function toSpokenPt(str) {
+            return String(str)
+                .replace(/×/g, ' vezes ')
+                .replace(/÷/g, ' dividido por ')
+                .replace(/=/g, ' é igual a ')
+                .replace(/R\$\s*(\d+)/g, '$1 reais')
+                .replace(/\+/g, ' mais ')
+                .replace(/−/g, ' menos ')
+                .replace(/\?/g, ' quanto é ');
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(toSpokenPt(text));
+                u.lang = 'pt-BR';
+                u.rate = 0.94;
+                window.speechSynthesis.speak(u);
+            } catch (e) {}
+        }
+
+        function toggleAutoVoice() {
+            autoVoice = !autoVoice;
+            const btn = document.getElementById('btn-voice');
+            btn.classList.toggle('active', autoVoice);
+            btn.setAttribute('aria-pressed', String(autoVoice));
+            document.getElementById('voice-label').textContent = autoVoice ? 'Voz: ligada' : 'Voz';
+            if (autoVoice) speak('Leitura automática ligada.');
+            else if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        }
+
+        /* ============================================================
+           03. PERSISTÊNCIA EM LOCALSTORAGE (SEPARADO × E ÷)
+           ============================================================ */
+        const STORE_KEY = 'caderno_contas_eja_v1';
+
+        function todayKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function emptyProgress() {
+            return {
+                mult: {}, // "a x b": { c, w, s }
+                div: {},  // "d x q": { c, w, s } -> (d*q) ÷ d = q
+                total: 0,
+                correct: 0,
+                daily: {},
+                goal: 20
+            };
+        }
+
+        function loadStore() {
+            try {
+                const raw = localStorage.getItem(STORE_KEY);
+                if (raw) {
+                    const p = JSON.parse(raw);
+                    return {
+                        mult: p.mult || {},
+                        div: p.div || {},
+                        total: p.total || 0,
+                        correct: p.correct || 0,
+                        daily: p.daily || {},
+                        goal: p.goal || 20
+                    };
+                }
+            } catch (e) {}
+            return emptyProgress();
+        }
+
+        function saveStore() {
+            try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {}
+        }
+
+        let store = loadStore();
+
+        /* ============================================================
+           04. NAVEGAÇÃO ENTRE ABAS
+           ============================================================ */
+        let currentTab = 'estudar';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['estudar', 'praticar', 'progresso'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.toggle('hidden', t !== tab);
+            });
+            document.querySelectorAll('[data-nav]').forEach(btn => {
+                const active = btn.dataset.nav === tab;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-current', active ? 'page' : 'false');
+            });
+            if (tab === 'progresso') renderProgress();
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        /* ============================================================
+           05. ESTRATÉGIAS DE CÁLCULO MENTAL (DIRETAS E ADULTAS)
+           ============================================================ */
+        const MULT_NOTES = {
+            1: { t: 'Mantém o valor', d: 'Multiplicar por 1 não altera o número. Uma nota de R$ 7 vale R$ 7.' },
+            2: { t: 'Dobro do número', d: 'Some o número com ele mesmo. Ex.: 2 × 8 = 8 + 8 = 16.' },
+            3: { t: 'Dobro mais uma vez', d: 'Calcule o dobro e some o número mais uma vez. Ex.: 3 × 6 = 12 + 6 = 18.' },
+            4: { t: 'Dobro do dobro', d: 'Dobre uma vez e dobre o resultado de novo. Ex.: 4 × 7 → 14 → 28.' },
+            5: { t: 'Metade de vezes 10', d: 'Multiplique por 10 e pegue a metade. O final é sempre 0 ou 5.' },
+            6: { t: 'Vezes 5 mais uma vez', d: 'Faça vezes 5 e junte o número mais uma vez. Ex.: 6 × 7 = 35 + 7 = 42.' },
+            7: { t: 'Quebre em 5 + 2', d: 'Some o resultado de vezes 5 com o resultado de vezes 2. Ex.: 7 × 8 = 40 + 16 = 56.' },
+            8: { t: 'Três dobros seguidos', d: 'Dobre três vezes, ou faça vezes 10 e tire o dobro.' },
+            9: { t: 'Vezes 10 menos o número', d: 'Coloque um zero e subtraia o próprio número. Ex.: 9 × 6 = 60 − 6 = 54.' },
+            10: { t: 'Zero no final', d: 'Acrescente um zero à direita do número. Ex.: 10 × 8 = 80.' }
+        };
+
+        const DIV_NOTES = {
+            1: { t: 'Mantém o valor', d: 'Dividir por 1 entrega o total inteiro para uma única parte.' },
+            2: { t: 'Metade exata', d: 'Dividir por 2 é repartir ao meio. Ex.: metade de R$ 18 é R$ 9.' },
+            3: { t: 'Tabuada do 3 ao contrário', d: 'Pergunte que número vezes 3 dá o total. Ex.: 24 ÷ 3 = 8, pois 3 × 8 = 24.' },
+            4: { t: 'Metade da metade', d: 'Pegue a metade duas vezes seguidas. Ex.: 28 ÷ 4 → 14 → 7.' },
+            5: { t: 'Dobre e tire o zero', d: 'Conte em notas de R$ 5, ou dobre o valor e retire o zero. Ex.: 35 × 2 = 70 → 7.' },
+            6: { t: 'Metade e depois por 3', d: 'Divida por 2 primeiro e depois divida o resultado por 3.' },
+            7: { t: 'Apoio na tabuada do 7', d: 'Use a multiplicação inversa: qual número vezes 7 fecha o total?' },
+            8: { t: 'Três metades seguidas', d: 'Divida por 2 três vezes seguidas. Ex.: 48 → 24 → 12 → 6.' },
+            9: { t: 'Perto do vezes 10', d: 'Compare com o múltiplo de 10 logo acima. Ex.: 63 fica perto de 70 → resultado 7.' },
+            10: { t: 'Retire o zero', d: 'Para números terminados em zero, dividir por 10 remove o último zero.' }
+        };
+
+        function multExplainStep(a, b) {
+            const r = a * b;
+            if (a === 1 || b === 1) return `Multiplicar por 1 conserva o valor: ${r}.`;
+            if (a === 10 || b === 10) return `Colocando um zero no final do ${a === 10 ? b : a}, chega-se a ${r}.`;
+            if (a === 2 || b === 2) { const x = a === 2 ? b : a; return `Dobro de ${x}: ${x} + ${x} = ${r}.`; }
+            if (a === 4 || b === 4) { const x = a === 4 ? b : a; return `Dobro do dobro: ${x} → ${x * 2} → ${r}.`; }
+            if (a === 5 || b === 5) { const x = a === 5 ? b : a; return `Faça ${x} × 10 = ${x * 10} e pegue a metade: ${r}.`; }
+            if (a === 9 || b === 9) { const x = a === 9 ? b : a; return `Faça ${x} × 10 = ${x * 10} e tire ${x}: ${x * 10} − ${x} = ${r}.`; }
+            if (a === 3 || b === 3) { const x = a === 3 ? b : a; return `Dobro de ${x} (${x * 2}) mais ${x} = ${r}.`; }
+            if (a === 6 || b === 6) { const x = a === 6 ? b : a; return `5 × ${x} = ${5 * x}; somando mais ${x}, dá ${r}.`; }
+            if (a === 8 || b === 8) { const x = a === 8 ? b : a; return `10 × ${x} (${10 * x}) menos 2 × ${x} (${2 * x}) = ${r}.`; }
+            return `Quebre ${a} em 5 + ${a - 5}: ${5 * b} + ${(a - 5) * b} = ${r}.`;
+        }
+
+        function multHint(a, b) {
+            if (a === 1 || b === 1) return 'Multiplicar por 1 mantém o mesmo número.';
+            if (a === 10 || b === 10) return `Coloque um zero no final do ${a === 10 ? b : a}.`;
+            if (a === 2 || b === 2) { const x = a === 2 ? b : a; return `Some ${x} com ${x}.`; }
+            if (a === 4 || b === 4) { const x = a === 4 ? b : a; return `O dobro de ${x} é ${x * 2}. Dobre ${x * 2} mais uma vez.`; }
+            if (a === 5 || b === 5) { const x = a === 5 ? b : a; return `Calcule ${x} × 10 = ${x * 10} e tire a metade.`; }
+            if (a === 9 || b === 9) { const x = a === 9 ? b : a; return `Calcule ${x} × 10 = ${x * 10} e subtraia ${x}.`; }
+            if (a === 3 || b === 3) { const x = a === 3 ? b : a; return `O dobro de ${x} é ${x * 2}. Junte mais ${x}.`; }
+            if (a === 6 || b === 6) { const x = a === 6 ? b : a; return `Parta de 5 × ${x} = ${5 * x} e some ${x}.`; }
+            return `Separe em duas contas: 5 × ${b} (${5 * b}) e ${a - 5} × ${b} (${(a - 5) * b}).`;
+        }
+
+        function divExplainStep(d, q) {
+            const n = d * q;
+            if (d === 1) return `Dividir por 1 mantém o valor: ${n}.`;
+            if (d === 2) return `Metade de ${n} é ${q}.`;
+            if (d === 4) return `Metade de ${n} é ${n / 2}; metade de ${n / 2} é ${q}.`;
+            if (d === 5) return `Dobro de ${n} é ${n * 2}; tirando o zero, fica ${q}.`;
+            if (d === 8) return `Três metades: ${n} → ${n / 2} → ${n / 4} → ${q}.`;
+            if (d === 10) return `Retirando o zero de ${n}, obtém-se ${q}.`;
+            return `Pela tabuada do ${d}: ${d} × ${q} = ${n}, logo ${n} ÷ ${d} = ${q}.`;
+        }
+
+        function divHint(d, q) {
+            const n = d * q;
+            if (d === 1) return 'Dividir por 1 não muda o número.';
+            if (d === 2) return `Pense na metade de ${n}.`;
+            if (d === 4) return `A metade de ${n} é ${n / 2}. Agora tire a metade de ${n / 2}.`;
+            if (d === 5) return `Quantas notas de R$ 5 formam R$ ${n}?`;
+            if (d === 8) return `Metade de ${n} é ${n / 2}; metade de ${n / 2} é ${n / 4}. Falta mais uma metade.`;
+            if (d === 10) return `Retire o zero no final de ${n}.`;
+            if (q > 5) return `Comece por ${d} × 5 = ${d * 5} e veja quanto falta até ${n}.`;
+            return `Na tabuada do ${d}, que número multiplicado por ${d} dá ${n}?`;
+        }
+
+        /* ============================================================
+           06. ABA 01: ESTUDAR
+           ============================================================ */
+        let studyOp = 'mult';
+        let studyNum = 2;
+        let studySec = 6;
+        let hideAnswers = false;
+        let revealedSet = new Set();
+
+        function setStudyOp(op) {
+            studyOp = op;
+            revealedSet.clear();
+            document.getElementById('view-estudar').setAttribute('data-op', op);
+            document.getElementById('study-op-mult').classList.toggle('active', op === 'mult');
+            document.getElementById('study-op-div').classList.toggle('active', op === 'div');
+            document.getElementById('study-op-mult').setAttribute('aria-selected', String(op === 'mult'));
+            document.getElementById('study-op-div').setAttribute('aria-selected', String(op === 'div'));
+            renderStudy();
+        }
+
+        function toggleFlashcard() {
+            hideAnswers = !hideAnswers;
+            revealedSet.clear();
+            document.getElementById('flashcard-label').textContent = hideAnswers ? 'Mostrar respostas' : 'Esconder respostas';
+            renderStudyList();
+        }
+
+        function renderStudy() {
+            const isM = studyOp === 'mult';
+            document.getElementById('study-strip-label').textContent = isM ? 'Tabuada de 1 a 10' : 'Divisor de 1 a 10';
+            document.getElementById('study-list-heading').textContent = isM ? `Tabuada do ${studyNum}` : `Divisão por ${studyNum}`;
+
+            const note = isM ? MULT_NOTES[studyNum] : DIV_NOTES[studyNum];
+            document.getElementById('study-trick-title').textContent = note.t;
+            document.getElementById('study-trick-text').textContent = note.d;
+
+            // Faixa 1-10
+            const strip = document.getElementById('study-num-strip');
+            strip.innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = `num-chip${i === studyNum ? ' active' : ''}`;
+                b.textContent = isM ? String(i) : `÷${i}`;
+                b.onclick = () => {
+                    studyNum = i;
+                    revealedSet.clear();
+                    renderStudy();
+                };
+                strip.appendChild(b);
+            }
+
+            renderStudyList();
+            renderStudyExplain();
+        }
+
+        function speakStudyTrick() {
+            const note = studyOp === 'mult' ? MULT_NOTES[studyNum] : DIV_NOTES[studyNum];
+            const head = studyOp === 'mult' ? `Tabuada do ${studyNum}.` : `Divisão por ${studyNum}.`;
+            speak(`${head} ${note.t}. ${note.d}`);
+        }
+
+        function renderStudyList() {
+            const box = document.getElementById('study-facts-list');
+            box.innerHTML = '';
+            const isM = studyOp === 'mult';
+
+            for (let i = 1; i <= 10; i++) {
+                const key = `${studyNum}-${i}`;
+                const masked = hideAnswers && !revealedSet.has(key);
+                const left = isM ? `${studyNum} × ${i} =` : `${studyNum * i} ÷ ${studyNum} =`;
+                const val = isM ? studyNum * i : i;
+                const spoken = isM
+                    ? `${studyNum} vezes ${i} é igual a ${val}.`
+                    : `${studyNum * i} dividido por ${studyNum} é igual a ${val}.`;
+
+                const row = document.createElement('div');
+                row.className = `fact-item${studySec === i ? ' selected' : ''}`;
+                row.setAttribute('role', 'button');
+                row.setAttribute('tabindex', '0');
+                row.onclick = () => {
+                    if (hideAnswers) revealedSet.add(key);
+                    studySec = i;
+                    renderStudyList();
+                    renderStudyExplain();
+                };
+                row.onkeydown = (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+                };
+
+                row.innerHTML = `
+                    <div class="fact-eq">
+                        <span>${left}</span>
+                        <span class="${masked ? 'fact-mask' : 'fact-res'}">${masked ? '?' : val}</span>
+                    </div>
+                    <button type="button" class="btn-icon" style="min-height:38px; min-width:38px;" aria-label="Ouvir ${spoken}"
+                        onclick="event.stopPropagation(); speak('${spoken}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+                            <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                        </svg>
+                    </button>
+                `;
+                box.appendChild(row);
+            }
+        }
+
+        function renderStudyExplain() {
+            const container = document.getElementById('explain-content');
+            if (studyOp === 'mult') {
+                const a = studyNum, b = studySec, r = a * b;
+                document.getElementById('explain-eq').innerHTML = `${a} × ${b} = <span style="color:var(--accent)">${r}</span>`;
+
+                // Grade de pontos limpa (a linhas × b colunas)
+                let dots = '';
+                for (let k = 0; k < a * b; k++) dots += '<span class="dot-pt"></span>';
+
+                container.innerHTML = `
+                    <div class="explain-block">
+                        <span class="label-meta">Como pensar</span>
+                        <p><strong>${multExplainStep(a, b)}</strong></p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Na prática (em reais)</span>
+                        <p>${a} ${plural(a, 'item', 'itens')} de ${reais(b)} ${plural(a, 'custa', 'custam')} ${reais(r)} no total.</p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Relação inversa (× e ÷)</span>
+                        <p>Se ${a} × ${b} = ${r}, então ${b} × ${a} = ${r} e ${r} ÷ ${a} = ${b}.</p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Visual (${a} ${plural(a, 'linha', 'linhas')} de ${b})</span>
+                        <div class="dot-matrix" style="grid-template-columns: repeat(${b}, 11px);" aria-label="${a} grupos de ${b} pontos">${dots}</div>
+                    </div>
+                `;
+            } else {
+                const d = studyNum, q = studySec, n = d * q;
+                document.getElementById('explain-eq').innerHTML = `${n} ÷ ${d} = <span style="color:var(--accent)">${q}</span>`;
+
+                let groups = '';
+                for (let g = 1; g <= d; g++) {
+                    let pts = '';
+                    for (let k = 0; k < q; k++) pts += '<span class="dot-pt"></span>';
+                    groups += `
+                        <div class="group-card">
+                            <div class="group-label">Parte ${g} (${q})</div>
+                            <div class="group-dots">${pts}</div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = `
+                    <div class="explain-block">
+                        <span class="label-meta">Como pensar</span>
+                        <p><strong>${divExplainStep(d, q)}</strong></p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Na prática (em reais)</span>
+                        <p>Dividir ${reais(n)} igualmente entre ${d} ${plural(d, 'pessoa', 'pessoas')} dá ${reais(q)} para cada uma.</p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Relação inversa (÷ e ×)</span>
+                        <p>${n} ÷ ${d} = ${q} porque ${d} × ${q} = ${n}.</p>
+                    </div>
+                    <div class="explain-block">
+                        <span class="label-meta">Repartição em ${d} ${plural(d, 'parte igual', 'partes iguais')}</span>
+                        <div class="groups-wrap">${groups}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function speakStudyExplain() {
+            if (studyOp === 'mult') {
+                const a = studyNum, b = studySec;
+                speak(`${a} vezes ${b} é igual a ${a * b}. ${multExplainStep(a, b)}`);
+            } else {
+                const d = studyNum, q = studySec, n = d * q;
+                speak(`${n} dividido por ${d} é igual a ${q}. ${divExplainStep(d, q)}`);
+            }
+        }
+
+        function renderFullMatrix() {
+            const g = document.getElementById('study-full-matrix');
+            g.innerHTML = '';
+            const c0 = document.createElement('div');
+            c0.className = 'm-head m-corner';
+            c0.textContent = '×';
+            g.appendChild(c0);
+
+            for (let c = 1; c <= 10; c++) {
+                const h = document.createElement('div');
+                h.className = 'm-head';
+                h.textContent = c;
+                g.appendChild(h);
+            }
+            for (let r = 1; r <= 10; r++) {
+                const rh = document.createElement('div');
+                rh.className = 'm-head';
+                rh.textContent = r;
+                g.appendChild(rh);
+                for (let c = 1; c <= 10; c++) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'm-cell';
+                    btn.textContent = r * c;
+                    btn.onclick = () => {
+                        setStudyOp('mult');
+                        studyNum = r;
+                        studySec = c;
+                        renderStudy();
+                    };
+                    g.appendChild(btn);
+                }
+            }
+        }
+
+        function stepLab(which, delta) {
+            const el = document.getElementById(which === 'total' ? 'lab-total' : 'lab-div');
+            const min = which === 'total' ? 1 : 2;
+            const max = which === 'total' ? 100 : 10;
+            const v = Math.max(min, Math.min(max, (parseInt(el.value, 10) || min) + delta));
+            el.value = v;
+            renderLab();
+        }
+
+        function renderLab() {
+            let total = parseInt(document.getElementById('lab-total').value, 10);
+            let div = parseInt(document.getElementById('lab-div').value, 10);
+            if (isNaN(total) || total < 1) total = 1;
+            if (total > 100) total = 100;
+            if (isNaN(div) || div < 2) div = 2;
+            if (div > 10) div = 10;
+
+            const q = Math.floor(total / div);
+            const r = total % div;
+
+            let cards = '';
+            const shown = Math.min(q, 10);
+            for (let p = 1; p <= div; p++) {
+                let dots = '';
+                for (let k = 0; k < shown; k++) dots += '<span class="dot-pt"></span>';
+                if (q > 10) dots += `<span class="num" style="font-size:0.74rem; font-weight:700;">+${q - 10}</span>`;
+                cards += `
+                    <div class="group-card">
+                        <div class="group-label">Pessoa ${p} · ${reais(q)}</div>
+                        <div class="group-dots">${dots || '<span class="muted" style="font-size:0.75rem;">0</span>'}</div>
+                    </div>
+                `;
+            }
+
+            if (r > 0) {
+                let rdots = '';
+                for (let k = 0; k < r; k++) rdots += '<span class="dot-pt rem"></span>';
+                cards += `
+                    <div class="group-card rem-card">
+                        <div class="group-label" style="color:var(--ocre);">Sobra · ${reais(r)}</div>
+                        <div class="group-dots">${rdots}</div>
+                    </div>
+                `;
+            }
+
+            const summary = r === 0
+                ? `Divisão exata: ${div} × ${q} = ${total}. Não sobra nada.`
+                : `Cada pessoa recebe ${reais(q)} e sobra ${reais(r)}. Prova real: ${div} × ${q} + ${r} = ${total}.`;
+
+            document.getElementById('lab-result').innerHTML = `
+                <div class="lab-readout">
+                    <div class="readout-box">
+                        <span class="label-meta">Para cada</span>
+                        <div class="readout-val">${reais(q)}</div>
+                    </div>
+                    <div class="readout-box">
+                        <span class="label-meta">Sobra (resto)</span>
+                        <div class="readout-val" style="color:var(--ocre);">${reais(r)}</div>
+                    </div>
+                </div>
+                <div class="groups-wrap">${cards}</div>
+                <p style="margin:0; font-size:0.94rem;">${summary}</p>
+            `;
+        }
+
+        /* ============================================================
+           07. ABA 02: PRATICAR (MOTOR PROCEDURAL + TECLADO BRAUN)
+           ============================================================ */
+        const STYLES = [
+            { id: 'direct', name: 'Conta direta', desc: 'Cálculo direto de multiplicação ou divisão.' },
+            { id: 'daily', name: 'Dia a dia', desc: 'Feira, obra, marmitas, transporte, costura e parcelas.' },
+            { id: 'estimate', name: 'Estimativa', desc: 'O dinheiro dá? Mais perto de qual valor? Dá pelo menos quanto?' },
+            { id: 'complete', name: 'Complete a conta', desc: 'Descubra o número que falta no meio da conta.' }
+        ];
+
+        let pracOp = 'mult'; // 'mult' | 'div' | 'mixed'
+        let pracNums = new Set([1, 2, 5, 10]);
+        let pracStyles = new Set(['direct', 'daily', 'estimate', 'complete']);
+        let pracRemainder = false;
+        let weakFocus = null;
+        let round = null;
+        let activeDualField = 'q'; // 'q' | 'r'
+
+        function setPracOp(op) {
+            pracOp = op;
+            document.getElementById('view-praticar').setAttribute('data-op', op === 'div' ? 'div' : 'mult');
+            ['mult', 'div', 'mixed'].forEach(o => {
+                document.getElementById(`p-op-${o}`).classList.toggle('active', o === op);
+            });
+            document.getElementById('prac-rem-wrap').classList.toggle('hidden', op === 'mult');
+            renderPracSetup();
+        }
+
+        function applyPreset(p) {
+            weakFocus = null;
+            if (p === 'easy') pracNums = new Set([1, 2, 5, 10]);
+            else if (p === 'med') pracNums = new Set([3, 4, 6]);
+            else if (p === 'hard') pracNums = new Set([7, 8, 9]);
+            else pracNums = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            renderPracSetup();
+        }
+
+        function togglePracRemainder() {
+            pracRemainder = !pracRemainder;
+            const tile = document.getElementById('btn-rem-toggle');
+            tile.classList.toggle('active', pracRemainder);
+            document.getElementById('rem-check-mark').innerHTML = pracRemainder
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+                : '';
+        }
+
+        function renderPracSetup() {
+            const grid = document.getElementById('prac-num-grid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = `num-chip${pracNums.has(i) ? ' active' : ''}`;
+                b.textContent = pracOp === 'div' ? `÷${i}` : String(i);
+                b.onclick = () => {
+                    weakFocus = null;
+                    if (pracNums.has(i)) {
+                        if (pracNums.size > 1) pracNums.delete(i);
+                    } else {
+                        pracNums.add(i);
+                    }
+                    renderPracSetup();
+                };
+                grid.appendChild(b);
+            }
+
+            const sGrid = document.getElementById('prac-style-grid');
+            sGrid.innerHTML = '';
+            STYLES.forEach(s => {
+                const on = pracStyles.has(s.id);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `check-tile${on ? ' active' : ''}`;
+                btn.onclick = () => {
+                    if (pracStyles.has(s.id)) {
+                        if (pracStyles.size > 1) pracStyles.delete(s.id);
+                    } else {
+                        pracStyles.add(s.id);
+                    }
+                    renderPracSetup();
+                };
+                btn.innerHTML = `
+                    <span class="check-mark">${on ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' : ''}</span>
+                    <div>
+                        <strong style="display:block; font-size:0.94rem;">${s.name}</strong>
+                        <span class="muted" style="font-size:0.82rem;">${s.desc}</span>
+                    </div>
+                `;
+                sGrid.appendChild(btn);
+            });
+        }
+
+        // Geradores procedurais de contextos adultos brasileiros
+        const MULT_SCENARIOS = [
+            (a, b) => {
+                const item = pick([
+                    { s: 'quilo de tomate', p: 'quilos de tomate' },
+                    { s: 'dúzia de ovos', p: 'dúzias de ovos' },
+                    { s: 'pacote de café', p: 'pacotes de café' },
+                    { s: 'litro de leite', p: 'litros de leite' }
+                ]);
+                return {
+                    tag: 'Dia a dia · Feira',
+                    story: `Na feira, você comprou ${a} ${plural(a, item.s, item.p)} a ${reais(b)} cada.`,
+                    prompt: 'Qual é o valor total em reais?',
+                    explain: `${a} × ${b} = ${reais(a * b)}.`
+                };
+            },
+            (a, b) => ({
+                tag: 'Dia a dia · Obra',
+                story: `Na obra, uma parede leva ${a} ${plural(a, 'fileira', 'fileiras')} com ${b} ${plural(b, 'peça', 'peças')} de azulejo em cada fileira.`,
+                prompt: 'Quantas peças de azulejo serão usadas?',
+                explain: `${a} × ${b} = ${a * b} ${plural(a * b, 'peça', 'peças')}.`
+            }),
+            (a, b) => ({
+                tag: 'Dia a dia · Marmitas',
+                story: `Um pedido tem ${a} ${plural(a, 'marmita', 'marmitas')} no valor de ${reais(b)} cada uma.`,
+                prompt: 'Quanto dá o pedido em reais?',
+                explain: `${a} × ${b} = ${reais(a * b)}.`
+            }),
+            (a, b) => ({
+                tag: 'Dia a dia · Transporte',
+                story: `O gasto diário de passagem é ${reais(b)}. A pessoa trabalhou ${a} ${plural(a, 'dia', 'dias')}.`,
+                prompt: 'Quanto gastou de passagem em reais?',
+                explain: `${a} × ${b} = ${reais(a * b)}.`
+            }),
+            (a, b) => ({
+                tag: 'Dia a dia · Costura',
+                story: `Uma costureira vai pregar ${b} ${plural(b, 'botão', 'botões')} em cada uma de ${a} ${plural(a, 'camisa', 'camisas')}.`,
+                prompt: 'De quantos botões ela precisa no total?',
+                explain: `${a} × ${b} = ${a * b} ${plural(a * b, 'botão', 'botões')}.`
+            }),
+            (a, b) => ({
+                tag: 'Dia a dia · Parcelas',
+                story: `Uma compra foi dividida em ${a} ${plural(a, 'parcela', 'parcelas')} iguais de ${reais(b)}.`,
+                prompt: 'Qual é o preço total em reais?',
+                explain: `${a} × ${b} = ${reais(a * b)}.`
+            })
+        ];
+
+        const DIV_SCENARIOS = [
+            (d, q) => {
+                const n = d * q;
+                return {
+                    tag: 'Dia a dia · Mercadinho',
+                    story: `A compra de ${reais(n)} no mercadinho será dividida igualmente entre ${d} ${plural(d, 'pessoa', 'pessoas')}.`,
+                    prompt: 'Quantos reais cada uma vai pagar?',
+                    explain: `${n} ÷ ${d} = ${reais(q)} para cada.`
+                };
+            },
+            (d, q) => {
+                const n = d * q;
+                return {
+                    tag: 'Dia a dia · Parcelas',
+                    story: `Um aparelho de ${reais(n)} será pago em ${d} ${plural(d, 'parcela igual', 'parcelas iguais')} sem juros.`,
+                    prompt: 'Qual é o valor de cada parcela em reais?',
+                    explain: `${n} ÷ ${d} = ${reais(q)} por parcela.`
+                };
+            },
+            (d, q) => {
+                const n = d * q;
+                return {
+                    tag: 'Dia a dia · Obra',
+                    story: `Chegaram ${n} ${plural(n, 'saco', 'sacos')} de argamassa para distribuir igualmente em ${d} ${plural(d, 'andar', 'andares')}.`,
+                    prompt: 'Quantos sacos ficam em cada andar?',
+                    explain: `${n} ÷ ${d} = ${q} ${plural(q, 'saco', 'sacos')} por andar.`
+                };
+            },
+            (d, q) => {
+                const n = d * q;
+                return {
+                    tag: 'Dia a dia · Diária',
+                    story: `Um serviço de ${n} ${plural(n, 'hora', 'horas')} será cumprido igualmente em ${d} ${plural(d, 'dia', 'dias')}.`,
+                    prompt: 'Quantas horas de trabalho por dia?',
+                    explain: `${n} ÷ ${d} = ${q} ${plural(q, 'hora', 'horas')} por dia.`
+                };
+            },
+            (d, q) => {
+                const n = d * q;
+                return {
+                    tag: 'Dia a dia · Costura',
+                    story: `Um rolo com ${n} ${plural(n, 'metro', 'metros')} de tecido será cortado em ${d} ${plural(d, 'pedaço igual', 'pedaços iguais')}.`,
+                    prompt: 'Quantos metros terá cada pedaço?',
+                    explain: `${n} ÷ ${d} = ${q} ${plural(q, 'metro', 'metros')}.`
+                };
+            }
+        ];
+
+        function pickNextTask(last) {
+            round.retryQueue.forEach(item => item.wait--);
+            const idx = round.retryQueue.findIndex(item => item.wait <= 0);
+            if (idx !== -1) {
+                const item = round.retryQueue.splice(idx, 1)[0];
+                return { op: item.op, a: item.a, b: item.b, isRetry: true };
+            }
+
+            if (weakFocus && weakFocus.length > 0 && Math.random() < 0.78) {
+                const pool = weakFocus.filter(f => !last || !(f.op === last.op && f.a === last.a && f.b === last.b));
+                if (pool.length > 0) {
+                    const f = pick(pool);
+                    return { op: f.op, a: f.a, b: f.b, isRetry: false };
+                }
+            }
+
+            const op = pracOp === 'mixed' ? (Math.random() < 0.5 ? 'mult' : 'div') : pracOp;
+            const nums = Array.from(pracNums);
+            const bucket = store[op];
+            const list = [];
+
+            nums.forEach(a => {
+                for (let b = 1; b <= 10; b++) {
+                    if (last && last.op === op && last.a === a && last.b === b && nums.length * 10 > 1) continue;
+                    const st = bucket[`${a}x${b}`];
+                    let w = 4;
+                    if (st) {
+                        if (st.w > 0 && st.s === 0) w = 9;
+                        else if (st.s >= 2 && st.c >= 2) w = 1;
+                        else w = 3;
+                    }
+                    list.push({ a, b, w });
+                }
+            });
+
+            const sum = list.reduce((acc, x) => acc + x.w, 0);
+            let r = Math.random() * sum;
+            for (const x of list) {
+                r -= x.w;
+                if (r <= 0) return { op, a: x.a, b: x.b, isRetry: false };
+            }
+            return { op, a: list[0].a, b: list[0].b, isRetry: false };
+        }
+
+        function buildQuestion(op, a, b, isRetry) {
+            // Divisão com resto (entrada dupla: Para cada / Sobra)
+            if (op === 'div' && pracRemainder && !isRetry && Math.random() < 0.25) {
+                const d = Math.max(2, a);
+                const q = rint(2, 9);
+                const r = rint(1, d - 1);
+                const total = d * q + r;
+                const ctx = pick([
+                    {
+                        story: `Você tem ${reais(total)} em notas de R$ 1 para dividir igualmente entre ${d} pessoas.`,
+                        prompt: 'Quantos reais ficam para cada pessoa e quanto sobra?'
+                    },
+                    {
+                        story: `Há ${total} salgados para repartir igualmente em ${d} bandejas.`,
+                        prompt: 'Quantos salgados ficam em cada bandeja e quantos sobram?'
+                    },
+                    {
+                        story: `Um pacote com ${total} peças será dividido igualmente em ${d} caixas.`,
+                        prompt: 'Quantas peças vão em cada caixa e quantas sobram?'
+                    }
+                ]);
+                return {
+                    op: 'div', a: d, b: q, isRetry: false,
+                    inputType: 'dual',
+                    tag: 'Divisão com resto',
+                    story: ctx.story,
+                    prompt: ctx.prompt,
+                    isTextPrompt: true,
+                    speech: `${ctx.story} ${ctx.prompt}`,
+                    answerQ: q,
+                    answerR: r,
+                    hint: `Na tabuada do ${d}, procure o número mais perto de ${total} sem passar. A diferença até ${total} é a sobra.`,
+                    explain: `${d} × ${q} = ${d * q}. De ${d * q} para ${total}, sobra ${r}. Resposta: ${q} para cada e sobra ${r}.`
+                };
+            }
+
+            const style = pick(Array.from(pracStyles));
+
+            if (op === 'mult') {
+                const prod = a * b;
+                if (style === 'direct') {
+                    return {
+                        op: 'mult', a, b, isRetry,
+                        inputType: 'single',
+                        tag: 'Multiplicação · Conta direta',
+                        story: '',
+                        prompt: `${a} × ${b} = ?`,
+                        isTextPrompt: false,
+                        speech: `Quanto é ${a} vezes ${b}?`,
+                        answer: prod,
+                        hint: multHint(a, b),
+                        explain: `${a} × ${b} = ${prod}. ${multExplainStep(a, b)}`
+                    };
+                }
+                if (style === 'daily') {
+                    const sc = pick(MULT_SCENARIOS)(a, b);
+                    return {
+                        op: 'mult', a, b, isRetry,
+                        inputType: 'single',
+                        tag: sc.tag,
+                        story: sc.story,
+                        prompt: sc.prompt,
+                        isTextPrompt: true,
+                        speech: `${sc.story} ${sc.prompt}`,
+                        answer: prod,
+                        hint: `Calcule ${a} × ${b}. ${multHint(a, b)}`,
+                        explain: `${sc.explain} ${multExplainStep(a, b)}`
+                    };
+                }
+                if (style === 'complete') {
+                    const hideB = Math.random() < 0.5;
+                    const ans = hideB ? b : a;
+                    const known = hideB ? a : b;
+                    const eq = hideB ? `${a} × ? = ${prod}` : `? × ${b} = ${prod}`;
+                    return {
+                        op: 'mult', a, b, isRetry,
+                        inputType: 'single',
+                        tag: 'Complete a conta',
+                        story: 'Informe o número que completa a multiplicação.',
+                        prompt: eq,
+                        isTextPrompt: false,
+                        speech: `Complete a conta: ${eq}.`,
+                        answer: ans,
+                        hint: `Pense na tabuada do ${known}: que número vezes ${known} dá ${prod}?`,
+                        explain: `Como ${a} × ${b} = ${prod}, o número que faltava é ${ans}.`
+                    };
+                }
+                // Estimativa (Multiplicação)
+                const ea = Math.max(2, a), eb = Math.max(2, b), cost = ea * eb;
+                if (Math.random() < 0.55) {
+                    const wantYes = Math.random() < 0.5;
+                    const budget = wantYes ? cost + rint(0, 12) : Math.max(2, cost - rint(2, 10));
+                    const yes = budget >= cost;
+                    const story = `Você vai comprar ${ea} itens de ${reais(eb)} cada e tem ${reais(budget)} na carteira.`;
+                    return {
+                        op: 'mult', a: ea, b: eb, isRetry,
+                        inputType: 'options',
+                        tag: 'Estimativa · O dinheiro dá?',
+                        story,
+                        prompt: 'O dinheiro dá para pagar?',
+                        isTextPrompt: true,
+                        speech: `${story} O dinheiro dá para pagar?`,
+                        answer: yes ? 'sim' : 'nao',
+                        options: [
+                            { label: 'Sim, dá', value: 'sim' },
+                            { label: 'Não, falta', value: 'nao' }
+                        ],
+                        hint: `Estime ${ea} × ${eb}. ${multHint(ea, eb)} Compare com ${reais(budget)}.`,
+                        explain: `${ea} × ${eb} = ${reais(cost)}. Com ${reais(budget)}, ${yes ? 'dá para pagar.' : `faltam ${reais(cost - budget)}.`}`
+                    };
+                } else {
+                    const closest = Math.max(5, Math.round(cost / 5) * 5);
+                    const step = cost <= 25 ? 15 : 25;
+                    let lo = Math.max(5, closest - step), hi = closest + step;
+                    if (lo === closest) { lo = closest + step; hi = closest + step * 2; }
+                    const vals = [lo, closest, hi].sort((x, y) => x - y);
+                    return {
+                        op: 'mult', a: ea, b: eb, isRetry,
+                        inputType: 'options',
+                        tag: 'Estimativa · Aproximação',
+                        story: 'Sem fazer conta no papel, estime o resultado.',
+                        prompt: `${ea} × ${eb} fica mais perto de qual valor?`,
+                        isTextPrompt: true,
+                        speech: `${ea} vezes ${eb} fica mais perto de ${vals[0]}, ${vals[1]} ou ${vals[2]}?`,
+                        answer: String(closest),
+                        options: vals.map(v => ({ label: String(v), value: String(v) })),
+                        hint: multHint(ea, eb),
+                        explain: `${ea} × ${eb} = ${cost}, que fica mais perto de ${closest}.`
+                    };
+                }
+            } else {
+                // DIVISÃO
+                const d = a, q = b, n = d * q;
+                if (style === 'direct') {
+                    return {
+                        op: 'div', a: d, b: q, isRetry,
+                        inputType: 'single',
+                        tag: 'Divisão · Conta direta',
+                        story: '',
+                        prompt: `${n} ÷ ${d} = ?`,
+                        isTextPrompt: false,
+                        speech: `Quanto é ${n} dividido por ${d}?`,
+                        answer: q,
+                        hint: divHint(d, q),
+                        explain: `${n} ÷ ${d} = ${q}. ${divExplainStep(d, q)}`
+                    };
+                }
+                if (style === 'daily') {
+                    const ed = Math.max(2, d);
+                    const sc = pick(DIV_SCENARIOS)(ed, q);
+                    return {
+                        op: 'div', a: ed, b: q, isRetry,
+                        inputType: 'single',
+                        tag: sc.tag,
+                        story: sc.story,
+                        prompt: sc.prompt,
+                        isTextPrompt: true,
+                        speech: `${sc.story} ${sc.prompt}`,
+                        answer: q,
+                        hint: `Calcule ${ed * q} ÷ ${ed}. ${divHint(ed, q)}`,
+                        explain: `${sc.explain} Conferência: ${ed} × ${q} = ${ed * q}.`
+                    };
+                }
+                if (style === 'complete') {
+                    const hideN = Math.random() < 0.5;
+                    if (hideN) {
+                        const eq = `? ÷ ${d} = ${q}`;
+                        return {
+                            op: 'div', a: d, b: q, isRetry,
+                            inputType: 'single',
+                            tag: 'Complete a conta',
+                            story: 'Use a multiplicação para achar o número inicial.',
+                            prompt: eq,
+                            isTextPrompt: false,
+                            speech: `Qual número dividido por ${d} é igual a ${q}?`,
+                            answer: n,
+                            hint: `Faça o caminho inverso: quanto é ${d} × ${q}?`,
+                            explain: `${d} × ${q} = ${n}. Logo, ${n} ÷ ${d} = ${q}.`
+                        };
+                    } else {
+                        const eq = `${n} ÷ ? = ${q}`;
+                        return {
+                            op: 'div', a: d, b: q, isRetry,
+                            inputType: 'single',
+                            tag: 'Complete a conta',
+                            story: 'Informe por qual número devemos dividir.',
+                            prompt: eq,
+                            isTextPrompt: false,
+                            speech: `${n} dividido por qual número é igual a ${q}?`,
+                            answer: d,
+                            hint: `Pense na tabuada: que número vezes ${q} dá ${n}?`,
+                            explain: `Como ${d} × ${q} = ${n}, o divisor é ${d}.`
+                        };
+                    }
+                }
+                // Estimativa (Divisão)
+                const ed = Math.max(2, d);
+                if (Math.random() < 0.5) {
+                    const tq = Math.max(4, Math.min(10, q < 4 ? rint(4, 9) : q));
+                    const clean = ed * tq;
+                    const approx = Math.max(ed + 1, clean + pick([-2, -1, 1, 2]));
+                    const step = tq >= 6 ? 5 : 3;
+                    let lo = tq - step, hi = tq + step;
+                    if (lo < 1) { lo = tq + step; hi = tq + step * 2; }
+                    const vals = [lo, tq, hi].sort((x, y) => x - y);
+                    const story = `Uma conta de ${reais(approx)} será dividida entre ${ed} pessoas.`;
+                    return {
+                        op: 'div', a: ed, b: tq, isRetry,
+                        inputType: 'options',
+                        tag: 'Estimativa · Divisão',
+                        story,
+                        prompt: 'Cada pessoa paga mais perto de:',
+                        isTextPrompt: true,
+                        speech: `${story} Cada pessoa paga mais perto de ${vals[0]} reais, ${vals[1]} reais ou ${vals[2]} reais?`,
+                        answer: String(tq),
+                        options: vals.map(v => ({ label: reais(v), value: String(v) })),
+                        hint: `Arredonde ${reais(approx)} para ${reais(clean)} e divida por ${ed}.`,
+                        explain: `Arredondando para ${reais(clean)}, ${clean} ÷ ${ed} = ${reais(tq)}.`
+                    };
+                } else {
+                    const thr = pick([5, 6, 8, 10]);
+                    const need = ed * thr;
+                    const wantYes = Math.random() < 0.5;
+                    const total = wantYes ? need + rint(0, ed + 3) : Math.max(ed + 1, need - rint(2, ed + 4));
+                    const yes = total >= need;
+                    const story = `Dividindo ${reais(total)} igualmente entre ${ed} pessoas:`;
+                    return {
+                        op: 'div', a: ed, b: Math.min(10, thr), isRetry,
+                        inputType: 'options',
+                        tag: 'Estimativa · Dá pelo menos quanto?',
+                        story,
+                        prompt: `Cada pessoa recebe pelo menos ${reais(thr)}?`,
+                        isTextPrompt: true,
+                        speech: `${story} Cada pessoa recebe pelo menos ${thr} reais?`,
+                        answer: yes ? 'sim' : 'nao',
+                        options: [
+                            { label: 'Sim, dá pelo menos isso', value: 'sim' },
+                            { label: 'Não, dá menos', value: 'nao' }
+                        ],
+                        hint: `Multiplique ${ed} × ${thr} para saber o mínimo necessário.`,
+                        explain: `Para dar ${reais(thr)} a cada um, são precisos ${reais(need)}. Com ${reais(total)}, ${yes ? 'dá.' : 'não dá.'}`
+                    };
+                }
+            }
+        }
+
+        function startRound() {
+            round = {
+                idx: 0,
+                total: 10,
+                correct: 0,
+                retryQueue: [],
+                q: null,
+                answered: false,
+                log: []
+            };
+            document.getElementById('prac-setup').classList.add('hidden');
+            document.getElementById('prac-summary').classList.add('hidden');
+            document.getElementById('prac-active').classList.remove('hidden');
+            nextQuestion();
+        }
+
+        function exitToSetup() {
+            weakFocus = null;
+            document.getElementById('prac-active').classList.add('hidden');
+            document.getElementById('prac-summary').classList.add('hidden');
+            document.getElementById('prac-setup').classList.remove('hidden');
+            renderPracSetup();
+        }
+
+        function nextQuestion() {
+            if (round.idx >= round.total) {
+                showSummary();
+                return;
+            }
+            round.answered = false;
+            const picked = pickNextTask(round.q);
+            const q = buildQuestion(picked.op, picked.a, picked.b, picked.isRetry);
+            round.q = q;
+
+            document.getElementById('view-praticar').setAttribute('data-op', q.op);
+            const left = round.total - round.idx - 1;
+            document.getElementById('r-cur').textContent = round.idx + 1;
+            document.getElementById('r-rem').textContent = left === 0 ? 'Última conta.' : `Faltam ${left} ${plural(left, 'conta', 'contas')}.`;
+            document.getElementById('r-bar').style.width = `${((round.idx + 1) / round.total) * 100}%`;
+
+            const stage = document.getElementById('q-stage');
+            stage.className = 'q-stage';
+            document.getElementById('q-tag').textContent = q.tag;
+            document.getElementById('q-retry').classList.toggle('hidden', !q.isRetry);
+            document.getElementById('q-hint-box').classList.add('hidden');
+            document.getElementById('btn-hint').classList.remove('hidden');
+            document.getElementById('q-feedback').classList.add('hidden');
+
+            const storyEl = document.getElementById('q-story');
+            storyEl.textContent = q.story || '';
+            storyEl.classList.toggle('hidden', !q.story);
+
+            const eqEl = document.getElementById('q-eq');
+            eqEl.textContent = q.prompt;
+            eqEl.className = `q-equation${q.isTextPrompt ? ' is-question' : ''}`;
+
+            const singleWrap = document.getElementById('input-single-wrap');
+            const dualWrap = document.getElementById('input-dual-wrap');
+            const pad = document.getElementById('braun-pad');
+            const estBox = document.getElementById('est-options');
+
+            singleWrap.classList.add('hidden');
+            dualWrap.classList.add('hidden');
+            pad.classList.add('hidden');
+            estBox.classList.add('hidden');
+
+            if (q.inputType === 'single') {
+                singleWrap.classList.remove('hidden');
+                pad.classList.remove('hidden');
+                document.getElementById('ans-single').value = '';
+            } else if (q.inputType === 'dual') {
+                dualWrap.classList.remove('hidden');
+                pad.classList.remove('hidden');
+                document.getElementById('ans-q').value = '';
+                document.getElementById('ans-r').value = '';
+                focusDual('q');
+            } else {
+                estBox.classList.remove('hidden');
+                estBox.className = `est-options ${q.options.length === 3 ? 'cols-3' : 'cols-2'}`;
+                estBox.innerHTML = '';
+                q.options.forEach(o => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'est-btn';
+                    b.textContent = o.label;
+                    b.dataset.val = o.value;
+                    b.onclick = () => checkAnswer(o.value, b);
+                    estBox.appendChild(b);
+                });
+            }
+
+            if (autoVoice) speak(q.speech);
+        }
+
+        function focusDual(which) {
+            activeDualField = which;
+            document.getElementById('dual-box-q').classList.toggle('focused', which === 'q');
+            document.getElementById('dual-box-r').classList.toggle('focused', which === 'r');
+        }
+
+        function activeNumericInput() {
+            if (!round || !round.q) return null;
+            if (round.q.inputType === 'single') return document.getElementById('ans-single');
+            if (round.q.inputType === 'dual') return document.getElementById(activeDualField === 'q' ? 'ans-q' : 'ans-r');
+            return null;
+        }
+
+        function padKey(d) {
+            if (!round || round.answered) return;
+            const inp = activeNumericInput();
+            if (!inp) return;
+            if (inp.value.length < 4) inp.value += d;
+        }
+
+        function padBackspace() {
+            if (!round || round.answered) return;
+            const inp = activeNumericInput();
+            if (!inp) return;
+            inp.value = inp.value.slice(0, -1);
+        }
+
+        function submitNumeric() {
+            if (!round || !round.q) return;
+            if (round.answered) { advanceRound(); return; }
+            const q = round.q;
+            if (q.inputType === 'single') {
+                const v = parseInt(document.getElementById('ans-single').value, 10);
+                if (isNaN(v)) return;
+                checkAnswer(v, null);
+            } else if (q.inputType === 'dual') {
+                const qVal = document.getElementById('ans-q').value;
+                const rVal = document.getElementById('ans-r').value;
+                if (qVal === '') { focusDual('q'); return; }
+                if (rVal === '') { focusDual('r'); return; }
+                checkAnswer({ q: parseInt(qVal, 10), r: parseInt(rVal, 10) }, null);
+            }
+        }
+
+        // Suporte a teclado físico na aba Praticar
+        document.addEventListener('keydown', (e) => {
+            if (currentTab !== 'praticar' || !round || document.getElementById('prac-active').classList.contains('hidden')) return;
+            if (e.target.tagName === 'INPUT' && (e.target.id === 'lab-total' || e.target.id === 'lab-div')) return;
+
+            if (round.answered) {
+                if (e.key === 'Enter') { e.preventDefault(); advanceRound(); }
+                return;
+            }
+            if (round.q.inputType === 'options') return;
+
+            if (/^[0-9]$/.test(e.key)) {
+                e.preventDefault();
+                padKey(e.key);
+            } else if (e.key === 'Backspace') {
+                e.preventDefault();
+                padBackspace();
+            } else if (e.key === 'Tab' && round.q.inputType === 'dual') {
+                e.preventDefault();
+                focusDual(activeDualField === 'q' ? 'r' : 'q');
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                submitNumeric();
+            }
+        });
+
+        function showHint() {
+            if (!round || !round.q) return;
+            document.getElementById('q-hint-text').textContent = round.q.hint;
+            document.getElementById('q-hint-box').classList.remove('hidden');
+            document.getElementById('btn-hint').classList.add('hidden');
+            if (autoVoice) speakHint();
+        }
+
+        function speakQuestion() {
+            if (round?.q) speak(round.q.speech);
+        }
+
+        function speakHint() {
+            const t = document.getElementById('q-hint-text').textContent;
+            if (t) speak(t);
+        }
+
+        function checkAnswer(val, clickedBtn) {
+            if (round.answered) return;
+            round.answered = true;
+
+            const q = round.q;
+            let ok = false;
+            if (q.inputType === 'dual') {
+                ok = val.q === q.answerQ && val.r === q.answerR;
+            } else {
+                ok = String(val) === String(q.answer);
+            }
+
+            const key = `${q.a}x${q.b}`;
+            const bucket = store[q.op];
+            if (!bucket[key]) bucket[key] = { c: 0, w: 0, s: 0 };
+
+            store.total++;
+            const tk = todayKey();
+            store.daily[tk] = (store.daily[tk] || 0) + 1;
+
+            const stage = document.getElementById('q-stage');
+            const fb = document.getElementById('q-feedback');
+            fb.classList.remove('hidden');
+
+            document.querySelectorAll('#est-options button').forEach(b => b.disabled = true);
+
+            if (ok) {
+                bucket[key].c++;
+                bucket[key].s++;
+                store.correct++;
+                round.correct++;
+                stage.classList.add('is-correct');
+                if (clickedBtn) clickedBtn.classList.add('picked-ok');
+
+                fb.className = 'feedback-strip ok stack-sm';
+                fb.innerHTML = `
+                    <strong style="color:var(--mata); display:block;">Certo.</strong>
+                    <p style="margin:0; font-size:0.94rem;">${q.explain}</p>
+                    <button type="button" class="btn btn-primary" style="min-height:42px;" onclick="advanceRound()">
+                        ${round.idx + 1 === round.total ? 'Ver resumo' : 'Próxima conta'}
+                    </button>
+                `;
+                if (autoVoice) speak(`Certo. ${q.explain}`);
+            } else {
+                bucket[key].w++;
+                bucket[key].s = 0;
+
+                if (round.idx + 2 < round.total) {
+                    const dup = round.retryQueue.some(x => x.op === q.op && x.a === q.a && x.b === q.b);
+                    if (!dup) round.retryQueue.push({ op: q.op, a: q.a, b: q.b, wait: rint(2, 3) });
+                }
+
+                stage.classList.add('is-wrong');
+                if (clickedBtn) {
+                    clickedBtn.classList.add('picked-err');
+                    document.querySelectorAll('#est-options button').forEach(b => {
+                        if (b.dataset.val === String(q.answer)) b.classList.add('reveal-ok');
+                    });
+                }
+
+                fb.className = 'feedback-strip err stack-sm';
+                fb.innerHTML = `
+                    <strong style="color:var(--ocre); display:block;">Tente outra vez na próxima. Veja como pensar:</strong>
+                    <p style="margin:0; font-size:0.94rem;">${q.explain}</p>
+                    <button type="button" class="btn btn-ink" style="min-height:42px;" onclick="advanceRound()">
+                        ${round.idx + 1 === round.total ? 'Ver resumo' : 'Continuar'}
+                    </button>
+                `;
+                if (autoVoice) speak(`Veja como pensar: ${q.explain}`);
+            }
+
+            round.log.push({ op: q.op, a: q.a, b: q.b, ok, retry: q.isRetry });
+            saveStore();
+        }
+
+        function advanceRound() {
+            round.idx++;
+            nextQuestion();
+        }
+
+        function factText(op, a, b) {
+            return op === 'mult' ? `${a} × ${b} = ${a * b}` : `${a * b} ÷ ${a} = ${b}`;
+        }
+
+        function showSummary() {
+            document.getElementById('prac-active').classList.add('hidden');
+            document.getElementById('prac-summary').classList.remove('hidden');
+
+            document.getElementById('sum-score').textContent = `${round.correct}/${round.total}`;
+            document.getElementById('sum-note').textContent = round.correct >= 8
+                ? 'Bom ritmo de acertos nesta rodada.'
+                : 'Continue praticando os fatos abaixo para ganhar firmeza.';
+
+            const recovered = [...new Set(round.log.filter(x => x.retry && x.ok).map(x => factText(x.op, x.a, x.b)))];
+            const missed = [...new Set(round.log.filter(x => !x.ok).map(x => factText(x.op, x.a, x.b)))];
+
+            const det = document.getElementById('sum-details');
+            det.innerHTML = '';
+            if (recovered.length) {
+                det.innerHTML += `<p style="margin:0; font-size:0.94rem;"><strong>Reforçadas e acertadas na rodada:</strong> ${recovered.join(' · ')}</p>`;
+            }
+            if (missed.length) {
+                det.innerHTML += `<p style="margin:0; font-size:0.94rem;"><strong>Para revisar:</strong> ${missed.join(' · ')}</p>`;
+            } else {
+                det.innerHTML += `<p style="margin:0; font-size:0.94rem;">Nenhuma conta pendente nesta rodada.</p>`;
+            }
+
+            if (autoVoice) speak(`Rodada concluída. ${round.correct} acertos de 10 contas.`);
+        }
+
+        /* ============================================================
+           08. ABA 03: PROGRESSO
+           ============================================================ */
+        let progOp = 'mult';
+
+        function setProgOp(op) {
+            progOp = op;
+            document.getElementById('view-progresso').setAttribute('data-op', op);
+            document.getElementById('prog-op-mult').classList.toggle('active', op === 'mult');
+            document.getElementById('prog-op-div').classList.toggle('active', op === 'div');
+            document.getElementById('prog-cell-info').classList.add('hidden');
+            renderProgress();
+        }
+
+        function setGoal(g) {
+            store.goal = g;
+            saveStore();
+            renderProgress();
+        }
+
+        function factLevel(op, a, b) {
+            const st = store[op][`${a}x${b}`];
+            if (!st || (st.c === 0 && st.w === 0)) return 0;
+            const tot = st.c + st.w;
+            if (st.s >= 2 || (st.c >= 3 && st.c / tot >= 0.8)) return 3;
+            if (st.c >= 1) return 2;
+            return 1;
+        }
+
+        function getWeakFacts(op) {
+            const out = [];
+            for (let a = 1; a <= 10; a++) {
+                for (let b = 1; b <= 10; b++) {
+                    const st = store[op][`${a}x${b}`];
+                    if (st && st.w > 0 && (st.s < 2 || st.w >= st.c)) {
+                        out.push({ op, a, b, rank: st.w * 2 - st.s });
+                    }
+                }
+            }
+            return out.sort((x, y) => y.rank - x.rank);
+        }
+
+        function renderProgress() {
+            const acc = store.total > 0 ? `${Math.round((store.correct / store.total) * 100)}%` : '—';
+            const todayN = store.daily[todayKey()] || 0;
+            const goal = store.goal || 20;
+
+            document.getElementById('kpi-total').textContent = store.total;
+            document.getElementById('kpi-acc').textContent = acc;
+            document.getElementById('kpi-today').textContent = todayN;
+            document.getElementById('kpi-goal').textContent = goal;
+            document.getElementById('kpi-today-bar').style.width = `${Math.min(100, (todayN / goal) * 100)}%`;
+
+            document.querySelectorAll('.goal-btn').forEach(b => {
+                b.classList.toggle('active', parseInt(b.dataset.goal, 10) === goal);
+            });
+
+            // Contas para reforçar
+            const weak = getWeakFacts(progOp).slice(0, 10);
+            const wBox = document.getElementById('prog-weak-list');
+            wBox.innerHTML = '';
+            if (weak.length === 0) {
+                wBox.innerHTML = '<p class="muted" style="font-size:0.9rem;">Nenhuma conta pendente de reforço nesta operação.</p>';
+            } else {
+                weak.forEach(item => {
+                    const sp = document.createElement('span');
+                    sp.className = 'reforco-chip';
+                    sp.textContent = factText(progOp, item.a, item.b);
+                    wBox.appendChild(sp);
+                });
+            }
+
+            // Barras por tabuada / divisor
+            const isM = progOp === 'mult';
+            document.getElementById('prog-bars-title').textContent = isM ? 'Por tabuada (1 a 10)' : 'Por divisor (÷1 a ÷10)';
+            const bars = document.getElementById('prog-bars');
+            bars.innerHTML = '';
+
+            for (let t = 1; t <= 10; t++) {
+                let mastered = 0, seen = 0;
+                for (let k = 1; k <= 10; k++) {
+                    const lv = factLevel(progOp, t, k);
+                    if (lv === 3) { mastered++; seen++; }
+                    else if (lv > 0) seen++;
+                }
+                const pct = Math.round((mastered / 10) * 100);
+                const row = document.createElement('div');
+                row.className = 'bar-row';
+                row.innerHTML = `
+                    <div class="row-between" style="font-size:0.88rem;">
+                        <strong>${isM ? `Tabuada do ${t}` : `Divisão por ${t}`}</strong>
+                        <span class="num muted" style="font-size:0.84rem;">${mastered}/10 dominadas</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill${mastered >= 8 ? ' done' : ''}" style="width:${Math.max(pct, seen > 0 ? 10 : 0)}%;"></div>
+                    </div>
+                `;
+                bars.appendChild(row);
+            }
+
+            // Matriz 10x10 de densidade de tinta
+            document.getElementById('prog-map-title').textContent = isM ? 'Mapa de domínio · Multiplicação' : 'Mapa de domínio · Divisão';
+            document.getElementById('prog-map-sub').textContent = isM
+                ? 'Linhas × colunas. Toque em uma célula para ver o histórico.'
+                : 'Linhas = divisor (÷1 a ÷10) · colunas = resultado (1 a 10).';
+
+            const mat = document.getElementById('prog-matrix');
+            mat.innerHTML = '';
+
+            const c0 = document.createElement('div');
+            c0.className = 'm-head m-corner';
+            c0.textContent = isM ? '×' : '÷';
+            mat.appendChild(c0);
+
+            for (let c = 1; c <= 10; c++) {
+                const h = document.createElement('div');
+                h.className = 'm-head';
+                h.textContent = c;
+                mat.appendChild(h);
+            }
+
+            for (let r = 1; r <= 10; r++) {
+                const rh = document.createElement('div');
+                rh.className = 'm-head';
+                rh.textContent = isM ? r : `÷${r}`;
+                mat.appendChild(rh);
+
+                for (let c = 1; c <= 10; c++) {
+                    const lv = factLevel(progOp, r, c);
+                    const cell = document.createElement('button');
+                    cell.type = 'button';
+                    cell.className = `ink-cell ink-${lv}`;
+                    cell.textContent = r * c;
+                    cell.title = factText(progOp, r, c);
+                    cell.onclick = () => showCellInfo(progOp, r, c, lv);
+                    mat.appendChild(cell);
+                }
+            }
+        }
+
+        function showCellInfo(op, a, b, lv) {
+            const box = document.getElementById('prog-cell-info');
+            box.classList.remove('hidden');
+            const st = store[op][`${a}x${b}`] || { c: 0, w: 0 };
+            const labels = ['Sem registro', 'Início', 'Em prática', 'Dominada'];
+
+            document.getElementById('cell-info-title').textContent = `${factText(op, a, b)} · ${labels[lv]}`;
+            document.getElementById('cell-info-meta').textContent = `Acertos: ${st.c} · Erros: ${st.w}`;
+
+            const btn = document.getElementById('cell-info-btn');
+            btn.textContent = op === 'mult' ? `Praticar tabuada do ${a}` : `Praticar divisão por ${a}`;
+            btn.onclick = () => {
+                weakFocus = null;
+                setPracOp(op);
+                pracNums = new Set([a]);
+                switchTab('praticar');
+                startRound();
+            };
+        }
+
+        function practiceWeakNow() {
+            const weak = getWeakFacts(progOp);
+            setPracOp(progOp);
+            if (weak.length > 0) {
+                weakFocus = weak.slice(0, 10);
+                pracNums = new Set(weakFocus.map(x => x.a));
+            } else {
+                weakFocus = null;
+                pracNums = new Set([7, 8, 9]);
+            }
+            switchTab('praticar');
+            startRound();
+        }
+
+        /* ============================================================
+           09. REINICIAR PROGRESSO (CONFIRMAÇÃO EM DOIS PASSOS)
+           ============================================================ */
+        let resetStep = 1;
+
+        function openResetModal() {
+            resetStep = 1;
+            document.getElementById('rm-title').textContent = 'Reiniciar progresso?';
+            document.getElementById('rm-desc').textContent = 'Os registros de multiplicação, divisão e a meta de hoje serão apagados deste aparelho.';
+            document.getElementById('rm-confirm').textContent = 'Continuar';
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function confirmResetStep() {
+            if (resetStep === 1) {
+                resetStep = 2;
+                document.getElementById('rm-title').textContent = 'Confirmar exclusão';
+                document.getElementById('rm-desc').textContent = 'Esta ação não pode ser desfeita. Deseja zerar todos os dados agora?';
+                document.getElementById('rm-confirm').textContent = 'Apagar tudo';
+            } else {
+                store = emptyProgress();
+                saveStore();
+                document.getElementById('prog-cell-info').classList.add('hidden');
+                closeResetModal();
+                renderProgress();
+            }
+        }
+
+        /* ============================================================
+           10. BOOTSTRAP
+           ============================================================ */
+        window.onload = function () {
+            initVLibras();
+            renderStudy();
+            renderFullMatrix();
+            renderLab();
+            renderPracSetup();
+        };
+    </script>
+</body>
+</html>
